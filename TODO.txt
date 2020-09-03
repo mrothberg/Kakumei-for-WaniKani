@@ -1,0 +1,37 @@
+
+High Priority
+- Subscription support!!! - can only show users subject data up to their subbed level
+- Profile fragment - parse join date nicely
+- Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
+- Clean up gradle scripts (should also prob bump dependency versions)
+- Firebase stuff
+- Settings page cleanup (has config for recent unlocks/critical items/notifications)
+
+Medium Priority
+- Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed
+    - Currently no pagination handling if too many items are returned from the api
+- Better logging of api request calls - especially failure cases
+- Existing bug - sometimes the LevelPicker will also select the user's level + 1
+- Reduce number of API requests made When navigating from the Dashboard to the ProgressDetailsActivity (by clicking progress card)
+- Better caching of user - we make too many api calls to get the user's current level (maybe attach user obj to sync intent)
+- Clean up User stuff - made changes before WaniKaniAPIV1Interface created
+- Notifications support
+- Vacation Mode support
+- Donations View currently just blank, do something with it (remove?)
+
+Low Priority
+- Rate limit requests
+- Caching of subjects - using updatedAfter queries to only get new data
+- Recent Unlocks and Critical Items Views
+- Tests (UT, IT)
+- Java date objects instead of Strings in api models?
+- Support back button navigation between main fragments (dashboard, radicals, kanji, vocab...)
+- BaseItem methods - getKana() getOnyomi() getKunyomi() can prob be refactored
+
+
+Other Ideas
+- Timber for logging
+
+Plug in Ideas
+- pitch accent plugin
+- stroke order plugin

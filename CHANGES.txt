@@ -1,0 +1,19 @@
+
+- Created WaniKaniAPIV1Interface
+    - All classes that use the WaniKani api were modified go through this interface 
+        (previously the interaction was through static calls)
+    - There are 2 implementation of this interface (for V1 and V2 API)
+    - This allows MainActivity to choose which class to new up,
+        which allowed fast switching between implementations to verify V2 implementation worked correctly
+    
+- Created 'apimodels' package for V2 API objects and renamed old package 'wkamodels'
+    - WaniKaniApiV2 creates wkamodel classes using new API so the rest of the application will work the same as before
+    - This allowed minimum change to exising code, as the same data types are being returned
+
+- Removed fields from ProfileFragment that don't exist in V2 API
+
+- Changed directory structure to allow for UT/IT packages
+
+- Fix Vocabulary items missing data in ItemDetailsActivity - BaseItem was only retrieving certain data for Kanji items
+
+- Unregister sync receivers in onDestroyView() for the fragments that the DashboardFragment creates. 
