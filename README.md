@@ -6,6 +6,7 @@ Updated to work with WaniKani API V2.
 Important things currently broken/missing from orignal project:
 - Viewing of Recent Unlocks and Critical Items on Dashboard
 - Notifications
+- Vacation mode support
 
 See [CHANGES.txt](CHANGES.txt) for GPL required list of changes.
 
@@ -26,7 +27,8 @@ See [TODO.txt](TODO.txt) for list of known issues and planned work.
 
 ## License
 ```
-Copyright (C) 2013-present  İhsan Işık
+Copyright (C) 2013-2020  İhsan Işık
+Copyright (C) 2020-present  Michael Rothberg
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
