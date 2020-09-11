@@ -83,6 +83,7 @@
 
     <!-- Card Content (Progress) Strings -->
     <string name="card_content_reviews_available_now">Available Now</string>
+    <string name="card_content_reviews_not_available">Not Available</string>
     <string name="card_content_reviews_next_review">Next Review</string>
     <string name="card_content_reviews_more_reviews">More Reviews</string>
     <string name="card_content_reviews_next_hour">Next Hour</string>
@@ -243,6 +244,7 @@
         - Alberto Cuda (s84606) (Reviews, lessons, userscripts - it\'s all his work)\n
         - Adrien Pyke (kufii)\n
         - Aralox\n
+        - Brandon Pollack (brandonpollack23) \n
         - Edward Luo (edluo)\n
         - Gustorn\n
         - Hal Avisado (hfavisado)\n

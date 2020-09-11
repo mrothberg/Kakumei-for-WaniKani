@@ -17,21 +17,20 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 
 import tr.xip.wanikani.R;
+import tr.xip.wanikani.apimodels.UserData;
 import tr.xip.wanikani.app.fragment.DashboardFragment;
 import tr.xip.wanikani.client.WaniKaniAPIV1Interface;
 import tr.xip.wanikani.content.receiver.BroadcastIntents;
 import tr.xip.wanikani.database.DatabaseManager;
 import tr.xip.wanikani.managers.PrefManager;
-import tr.xip.wanikani.wkamodels.StudyQueue;
-import tr.xip.wanikani.apimodels.UserData;
 import tr.xip.wanikani.utils.Utils;
 import tr.xip.wanikani.widget.RelativeTimeTextView;
+import tr.xip.wanikani.wkamodels.StudyQueue;
 
 /**
  * Created by xihsa_000 on 3/13/14.
  */
 public class ReviewsCard extends Fragment {
-
     Context context;
     Utils utils;
 
@@ -114,7 +113,9 @@ public class ReviewsCard extends Fragment {
                 if (queue.reviews_available != 0) {
                     mNextReview.setText(R.string.card_content_reviews_available_now);
                 } else {
-                    if (PrefManager.isUseSpecificDates()) {
+                    if(queue.next_review_date == 0) {
+                        mNextReview.setText(R.string.card_content_reviews_not_available);
+                    } else if (PrefManager.isUseSpecificDates()) {
                         mNextReview.setText(sdf.format(queue.getNextReviewDateInMillis()));
                     } else {
                         mNextReview.setReferenceTime(queue.getNextReviewDateInMillis());

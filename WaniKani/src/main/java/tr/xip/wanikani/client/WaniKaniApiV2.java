@@ -342,7 +342,10 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
                     int reviewsAvailableNextHourCount = reviews.get(1).subject_ids.size();
                     int reviewsAvailableNextDayCount = reviews.stream().skip(2).map(review -> review.subject_ids.size()).reduce(0, Integer::sum);
 
-                    long date = iso8601Parser.parse(data.next_reviews_at).getTime();
+                    long date = 0;
+                    if(data.next_reviews_at != null) {
+                        date = iso8601Parser.parse(data.next_reviews_at).getTime() / 1000;
+                    }
 
                     StudyQueue studyQueue = new StudyQueue(0, lessonsAvailableNowCount, reviewsAvailableNowCount, reviewsAvailableNextHourCount, reviewsAvailableNextDayCount, date);
                     //TODO handle persisting to database elsewhere
