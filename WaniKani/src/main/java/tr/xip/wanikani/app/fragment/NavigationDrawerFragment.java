@@ -309,13 +309,21 @@ public class NavigationDrawerFragment extends Fragment {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
             switch (position) {
+                //TODO: Maybe do something with donations
+//                case 0:
+//                    startActivity(new Intent(getActivity(), DonationsActivity.class));
+//                    break;
+//                case 1:
+//                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+//                    break;
+//                case 2:
+//                    showlogoutDialog();
+//                    break;
+
                 case 0:
-                    startActivity(new Intent(getActivity(), DonationsActivity.class));
-                    break;
-                case 1:
                     startActivity(new Intent(getActivity(), SettingsActivity.class));
                     break;
-                case 2:
+                case 1:
                     showlogoutDialog();
                     break;
             }

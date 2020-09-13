@@ -23,7 +23,8 @@ public class NavigationSecondaryItemsAdapter extends ArrayAdapter<NavigationSeco
     public NavigationSecondaryItemsAdapter(Context context) {
         super(context, R.layout.item_navigation_secondary);
 
-        mDataset.add(new NavSecondaryItem(R.drawable.ic_heart, R.string.title_support_the_developer));
+        // TODO: Maybe do something with donations
+//        mDataset.add(new NavSecondaryItem(R.drawable.ic_heart, R.string.title_support_the_developer));
         mDataset.add(new NavSecondaryItem(R.drawable.ic_settings_black_24dp, R.string.title_settings));
         mDataset.add(new NavSecondaryItem(R.drawable.ic_logout_black_24dp, R.string.title_logout));
     }
