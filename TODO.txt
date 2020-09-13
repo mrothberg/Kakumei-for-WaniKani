@@ -1,5 +1,6 @@
 
 High Priority
+- Target API 29 - StickyGridHeaders library will make this tricky due to reflective access of method
 - Subscription support!!! - can only show users subject data up to their subbed level
 - Profile fragment - parse join date nicely
 - Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
