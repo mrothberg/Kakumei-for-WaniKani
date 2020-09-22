@@ -1,9 +1,9 @@
 <?xml version="1" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_kanji_card"
-    android:layout_width="100dp"
-    android:layout_height="130dp"
-    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="0.5dp"
     android:minHeight="130dp"
     android:minWidth="100dp">
 
@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="130dp"
-        android:minWidth="100dp">
+        android:minWidth="100dp"
+        android:id="@+id/item_kanji_inner_layout">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"

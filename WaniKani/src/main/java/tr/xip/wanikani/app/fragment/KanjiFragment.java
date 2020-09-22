@@ -1,28 +1,24 @@
 package tr.xip.wanikani.app.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.codewaves.stickyheadergrid.StickyHeaderGridLayoutManager;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,21 +27,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tr.xip.wanikani.R;
-import tr.xip.wanikani.app.activity.ItemDetailsActivity;
+import tr.xip.wanikani.apimodels.UserData;
+import tr.xip.wanikani.apimodels.UserRequest;
 import tr.xip.wanikani.client.WaniKaniAPIV1Interface;
 import tr.xip.wanikani.client.WaniKaniApiV2;
 import tr.xip.wanikani.database.DatabaseManager;
 import tr.xip.wanikani.dialogs.LegendDialogFragment;
 import tr.xip.wanikani.dialogs.LevelPickerDialogFragment;
 import tr.xip.wanikani.managers.PrefManager;
-import tr.xip.wanikani.widget.adapter.KanjiAdapter2;
+import tr.xip.wanikani.utils.Utils;
+import tr.xip.wanikani.widget.adapter.KanjiAdapter;
 import tr.xip.wanikani.wkamodels.BaseItem;
 import tr.xip.wanikani.wkamodels.ItemsList;
 import tr.xip.wanikani.wkamodels.KanjiList;
-import tr.xip.wanikani.apimodels.UserData;
-import tr.xip.wanikani.apimodels.UserRequest;
-import tr.xip.wanikani.utils.Utils;
-import tr.xip.wanikani.widget.adapter.KanjiAdapter;
 
 public class KanjiFragment extends Fragment implements LevelPickerDialogFragment.LevelDialogListener,
         SwipeRefreshLayout.OnRefreshListener {
@@ -57,7 +51,6 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
     ImageView mMessageIcon;
     ViewFlipper mMessageFlipper;
 
-//    StickyGridHeadersGridView mGrid;
     private RecyclerView mRecycler;
     private StickyHeaderGridLayoutManager mLayoutManager;
 
@@ -65,8 +58,7 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
 
     LevelPickerDialogFragment mLevelPickerDialog;
 
-//    KanjiAdapter mKanjiAdapter;
-    KanjiAdapter2 mKanjiAdapter;
+    KanjiAdapter mKanjiAdapter;
     View rootView;
 
     String level = "";
@@ -117,13 +109,15 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
         mMessageSwipeRefreshLayout.setOnRefreshListener(this);
         mMessageSwipeRefreshLayout.setColorSchemeResources(R.color.swipe_refresh);
 
-//        mGrid = (StickyGridHeadersGridView) rootView.findViewById(R.id.kanji_grid);
-//        mGrid.setOnItemClickListener(new gridItemClickListener());
+        mRecycler = rootView.findViewById(R.id.kanji_recycler_view);
 
-        mRecycler = rootView.findViewById(R.id.recycler);
-        mLayoutManager = new StickyHeaderGridLayoutManager(4);
+        //TODO: There's probably a better way to do this, maybe using dimensions?
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int kanjiItemDimen = 100;
+        int numColumns = (int) (screenWidthDp / kanjiItemDimen + 0.5); // +0.5 for correct rounding to int.
+        mLayoutManager = new StickyHeaderGridLayoutManager(numColumns);
         mRecycler.setLayoutManager(mLayoutManager);
-
 
         mListFlipper = (ViewFlipper) rootView.findViewById(R.id.kanji_list_flipper);
         mMessageFlipper = (ViewFlipper) rootView.findViewById(R.id.kanji_message_flipper);
@@ -206,8 +200,6 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
             mMessageTitle.setText(R.string.no_items_title);
             mMessageSummary.setText(R.string.no_items_summary);
 
-//            mRecycler.setAdapter(new ArrayAdapter(context, R.layout.item_radical));
-
             if (mMessageFlipper.getDisplayedChild() == 0) {
                 mMessageFlipper.showNext();
             }
@@ -215,15 +207,14 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
     }
 
     private void loadKanjiList(ItemsList list) {
+            //TODO: The Kanji Adapter should prob do this sort
             Collections.sort(list, new Comparator<BaseItem>() {
                 public int compare(BaseItem item1, BaseItem item2) {
                     return Float.valueOf((item1.getLevel() + "")).compareTo(Float.valueOf(item2.getLevel() + ""));
                 }
             });
 
-//            mKanjiAdapter = new KanjiAdapter(context, list, R.layout.header_level, R.layout.item_kanji);
-//            mGrid.setAdapter(mKanjiAdapter);
-            mKanjiAdapter = new KanjiAdapter2(context, list);
+            mKanjiAdapter = new KanjiAdapter(context, list);
             mRecycler.setAdapter(mKanjiAdapter);
 
             if (mMessageFlipper.getDisplayedChild() == 1)
@@ -266,18 +257,4 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
     public void onRefresh() {
         fetchData();
     }
-
-    private class gridItemClickListener implements AdapterView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//            BaseItem kanjiItem = mKanjiAdapter.getItem(position);
-//
-//            Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-//            intent.putExtra(ItemDetailsActivity.ARG_ITEM, kanjiItem);
-//            getActivity().startActivity(intent);
-            Log.d(TAG, "position clicked: " + position);
-        }
-    }
-
 }

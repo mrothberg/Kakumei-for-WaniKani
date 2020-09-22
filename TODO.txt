@@ -1,6 +1,5 @@
 
 High Priority
-- Target API 29 - StickyGridHeaders library will make this tricky due to reflective access of method
 - Subscription support!!! - can only show users subject data up to their subbed level
 - Profile fragment - parse join date nicely
 - Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
@@ -9,6 +8,7 @@ High Priority
 - Settings page cleanup (has config for recent unlocks/critical items/notifications)
 
 Medium Priority
+- Radical/Kanji/Vocab item RecyclerView fast scrolling
 - Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed
     - Currently no pagination handling if too many items are returned from the api
 - Better logging of api request calls - especially failure cases
@@ -21,6 +21,7 @@ Medium Priority
 - Donations View currently just blank, do something with it (remove?)
 
 Low Priority
+- Google autoformat style/spacing
 - Rate limit requests
 - Caching of subjects - using updatedAfter queries to only get new data
 - Recent Unlocks and Critical Items Views

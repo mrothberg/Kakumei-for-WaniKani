@@ -34,28 +34,11 @@
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true">
 
-<!--                <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView-->
-<!--                    android:id="@+id/kanji_grid"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:clipToPadding="false"-->
-<!--                    android:columnWidth="100dp"-->
-<!--                    android:drawSelectorOnTop="true"-->
-<!--                    android:fadingEdge="none"-->
-<!--                    android:fastScrollEnabled="true"-->
-<!--                    android:horizontalSpacing="1dp"-->
-<!--                    android:listSelector="@drawable/selector_background_neutral_grid_item"-->
-<!--                    android:numColumns="auto_fit"-->
-<!--                    android:overScrollMode="never"-->
-<!--                    android:scrollbarStyle="outsideOverlay"-->
-<!--                    android:stretchMode="columnWidth"-->
-<!--                    android:verticalSpacing="1dp" />-->
-
-                <android.support.v7.widget.RecyclerView android:id="@+id/recycler"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/kanji_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="vertical"
-                    android:background="@android:color/white"/>
+                    android:scrollbars="vertical" />
 
             </RelativeLayout>
 
@@ -96,9 +79,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="8dp"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
+                            android:layout_marginBottom="8dp"
                             android:textColor="@color/text_gray" />
                     </LinearLayout>
                 </ScrollView>
