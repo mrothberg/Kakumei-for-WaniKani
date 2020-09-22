@@ -9,6 +9,7 @@ High Priority
 
 Medium Priority
 - Radical/Kanji/Vocab item RecyclerView fast scrolling
+- Radical/Kanji/Vocab item RecyclerView hover over/long press highlighting
 - Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed
     - Currently no pagination handling if too many items are returned from the api
 - Better logging of api request calls - especially failure cases

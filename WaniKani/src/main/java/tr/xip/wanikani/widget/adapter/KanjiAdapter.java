@@ -95,13 +95,13 @@ public class KanjiAdapter extends StickyHeaderGridAdapter {
         holder.card.setLayoutAnimation(Animations.FadeInController());
 
         if (!kanjiItem.isUnlocked()) {
-            holder.kanjiInnterLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.kanjiInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
             holder.status.setBackgroundResource(R.drawable.pattern_diagonal_xml);
         } else if (kanjiItem.isBurned()) {
-            holder.kanjiInnterLayout.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
+            holder.kanjiInnerLayout.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
             holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         } else {
-            holder.kanjiInnterLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.kanjiInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
             holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
@@ -148,7 +148,7 @@ public class KanjiAdapter extends StickyHeaderGridAdapter {
 
     protected static class KanjiViewHolder extends ItemViewHolder {
         public FrameLayout card;
-        public RelativeLayout kanjiInnterLayout;
+        public RelativeLayout kanjiInnerLayout;
         public TextView character;
         public TextView meaning;
         public TextView reading;
@@ -158,7 +158,7 @@ public class KanjiAdapter extends StickyHeaderGridAdapter {
         public KanjiViewHolder(View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.item_kanji_card);
-            kanjiInnterLayout = itemView.findViewById(R.id.item_kanji_inner_layout);
+            kanjiInnerLayout = itemView.findViewById(R.id.item_kanji_inner_layout);
             status = itemView.findViewById(R.id.item_kanji_status);
             character = itemView.findViewById(R.id.item_kanji_character);
             meaning = itemView.findViewById(R.id.item_kanji_meaning);

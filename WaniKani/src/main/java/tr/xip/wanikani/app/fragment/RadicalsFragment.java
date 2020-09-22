@@ -1,12 +1,13 @@
 package tr.xip.wanikani.app.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,13 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import com.codewaves.stickyheadergrid.StickyHeaderGridLayoutManager;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tr.xip.wanikani.R;
-import tr.xip.wanikani.app.activity.ItemDetailsActivity;
+import tr.xip.wanikani.apimodels.UserData;
+import tr.xip.wanikani.apimodels.UserRequest;
 import tr.xip.wanikani.client.WaniKaniAPIV1Interface;
 import tr.xip.wanikani.client.WaniKaniApiV2;
 import tr.xip.wanikani.database.DatabaseManager;
@@ -40,8 +40,6 @@ import tr.xip.wanikani.utils.Utils;
 import tr.xip.wanikani.widget.adapter.RadicalsAdapter;
 import tr.xip.wanikani.wkamodels.BaseItem;
 import tr.xip.wanikani.wkamodels.RadicalsList;
-import tr.xip.wanikani.apimodels.UserData;
-import tr.xip.wanikani.apimodels.UserRequest;
 
 public class RadicalsFragment extends Fragment implements LevelPickerDialogFragment.LevelDialogListener,
         SwipeRefreshLayout.OnRefreshListener {
@@ -54,7 +52,8 @@ public class RadicalsFragment extends Fragment implements LevelPickerDialogFragm
     ImageView mMessageIcon;
     ViewFlipper mMessageFlipper;
 
-    StickyGridHeadersGridView mGrid;
+    private RecyclerView mRecycler;
+    private StickyHeaderGridLayoutManager mLayoutManager;
 
     ViewFlipper mListFlipper;
 
@@ -111,8 +110,15 @@ public class RadicalsFragment extends Fragment implements LevelPickerDialogFragm
         mMessageSwipeRefreshLayout.setOnRefreshListener(this);
         mMessageSwipeRefreshLayout.setColorSchemeResources(R.color.swipe_refresh);
 
-        mGrid = (StickyGridHeadersGridView) rootView.findViewById(R.id.radicals_grid);
-        mGrid.setOnItemClickListener(new gridItemClickListener());
+        mRecycler = rootView.findViewById(R.id.radical_recycler_view);
+
+        //TODO: There's probably a better way to do this, maybe using dimensions?
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int radicalItemWidth = 100;
+        int numColumns = (int) (screenWidthDp / radicalItemWidth + 0.5); // +0.5 for correct rounding to int.
+        mLayoutManager = new StickyHeaderGridLayoutManager(numColumns);
+        mRecycler.setLayoutManager(mLayoutManager);
 
         mListFlipper = (ViewFlipper) rootView.findViewById(R.id.radicals_list_flipper);
         mMessageFlipper = (ViewFlipper) rootView.findViewById(R.id.radicals_message_flipper);
@@ -193,8 +199,6 @@ public class RadicalsFragment extends Fragment implements LevelPickerDialogFragm
             mMessageTitle.setText(R.string.no_items_title);
             mMessageSummary.setText(R.string.no_items_summary);
 
-            mGrid.setAdapter(new ArrayAdapter(context, R.layout.item_radical));
-
             if (mMessageFlipper.getDisplayedChild() == 0) {
                 mMessageFlipper.showNext();
             }
@@ -208,8 +212,8 @@ public class RadicalsFragment extends Fragment implements LevelPickerDialogFragm
             }
         });
 
-        mRadicalsAdapter = new RadicalsAdapter(context, list, R.layout.header_level, R.layout.item_radical);
-        mGrid.setAdapter(mRadicalsAdapter);
+        mRadicalsAdapter = new RadicalsAdapter(context, list);
+        mRecycler.setAdapter(mRadicalsAdapter);
 
         if (mMessageFlipper.getDisplayedChild() == 1)
             mMessageFlipper.showPrevious();
@@ -250,17 +254,5 @@ public class RadicalsFragment extends Fragment implements LevelPickerDialogFragm
     @Override
     public void onRefresh() {
         fetchData();
-    }
-
-    private class gridItemClickListener implements AdapterView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            BaseItem radicalItem = mRadicalsAdapter.getItem(position);
-
-            Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-            intent.putExtra(ItemDetailsActivity.ARG_ITEM, radicalItem);
-            getActivity().startActivity(intent);
-        }
     }
 }

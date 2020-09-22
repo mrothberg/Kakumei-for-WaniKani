@@ -1,151 +1,185 @@
 package tr.xip.wanikani.widget.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.codewaves.stickyheadergrid.StickyHeaderGridAdapter;
 import com.squareup.picasso.Picasso;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import tr.xip.wanikani.R;
+import tr.xip.wanikani.app.activity.ItemDetailsActivity;
 import tr.xip.wanikani.utils.Animations;
 import tr.xip.wanikani.utils.Fonts;
 import tr.xip.wanikani.wkamodels.BaseItem;
 
-public class RadicalsAdapter extends StickyGridHeadersSimpleArrayAdapter<BaseItem> {
-    Context context;
+public class RadicalsAdapter extends StickyHeaderGridAdapter {
 
-    int headerResourceId;
+    Map<Integer, List<BaseItem>> map = new LinkedHashMap<>();
+    List<Integer> levelsZeroIndexed;
     Typeface typeface;
-    private List<BaseItem> items;
+    Context context;
+    public static final String TAG = "RadicalsAdapter";
 
-    public RadicalsAdapter(Context context, List<BaseItem> list, int headerResId, int itemResId) {
-        super(context, list, headerResId, itemResId);
-        this.items = list;
+    public RadicalsAdapter(Context context, List<BaseItem> list) {
         this.context = context;
-        this.headerResourceId = headerResId;
         this.typeface = new Fonts().getKanjiFont(context);
-    }
 
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        //TODO: clean this up
+        for (BaseItem item : list) {
+            int level = item.getLevel();
 
-        BaseItem radicalItem = items.get(position);
-
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_radical, null);
-
-            viewHolder = new ViewHolder();
-
-            viewHolder.card = (FrameLayout) convertView.findViewById(R.id.item_radical_card);
-            viewHolder.status = convertView.findViewById(R.id.item_radical_status);
-            viewHolder.character = (TextView) convertView.findViewById(R.id.item_radical_character);
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.item_radical_character_image);
-            viewHolder.meaning = (TextView) convertView.findViewById(R.id.item_radical_meaning);
-            viewHolder.srs = convertView.findViewById(R.id.item_radical_srs_level);
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) (convertView.getTag());
+            if (map.get(level) != null) {
+                map.get(level).add(item);
+            } else {
+                List<BaseItem> newList = new ArrayList<>();
+                newList.add(item);
+                map.put(level, newList);
+            }
         }
 
-        ((FrameLayout) convertView).setLayoutAnimation(Animations.FadeInController());
+        this.levelsZeroIndexed = new ArrayList<>(map.keySet());
+    }
 
-        viewHolder.character.setTypeface(this.typeface);
+    @Override
+    public int getSectionCount() {
+        return map.size();
+    }
+
+    @Override
+    public int getSectionItemCount(int section) {
+        int levelZeroIndexed = levelsZeroIndexed.get(section);
+        return map.get(levelZeroIndexed).size();
+    }
+
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_level, parent, false);
+        return new RadicalLevelHeaderViewHolder(view);
+    }
+
+    @Override
+    public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_radical, parent, false);
+        return new RadicalItemViewHolder(view);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(HeaderViewHolder viewHolder, int section) {
+        final RadicalLevelHeaderViewHolder holder = (RadicalLevelHeaderViewHolder) viewHolder;
+        holder.textView.setText(levelsZeroIndexed.get(section).toString());
+    }
+
+    @Override
+    public void onBindItemViewHolder(ItemViewHolder viewHolder, int section, int offset) {
+        final RadicalItemViewHolder holder = (RadicalItemViewHolder) viewHolder;
+
+        int levelZeroIndexed = levelsZeroIndexed.get(section);
+        BaseItem radicalItem = map.get(levelZeroIndexed).get(offset);
+
+        holder.card.setLayoutAnimation(Animations.FadeInController());
+
+        holder.character.setTypeface(this.typeface);
 
         if (radicalItem.getImage() == null) {
-            viewHolder.character.setVisibility(View.VISIBLE);
-            viewHolder.image.setVisibility(View.GONE);
-            viewHolder.character.setText(radicalItem.getCharacter());
+            holder.character.setVisibility(View.VISIBLE);
+            holder.image.setVisibility(View.GONE);
+            holder.character.setText(radicalItem.getCharacter());
         } else {
-            viewHolder.character.setVisibility(View.GONE);
-            viewHolder.image.setVisibility(View.VISIBLE);
+            holder.character.setVisibility(View.GONE);
+            holder.image.setVisibility(View.VISIBLE);
             Picasso.with(context)
                     .load(radicalItem.getImage())
-                    .into(viewHolder.image);
+                    .into(holder.image);
 
-            viewHolder.image.setColorFilter(context.getResources().getColor(R.color.text_gray), PorterDuff.Mode.SRC_ATOP);
+            holder.image.setColorFilter(context.getResources().getColor(R.color.text_gray), PorterDuff.Mode.SRC_ATOP);
         }
 
         if (!radicalItem.isUnlocked()) {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-            viewHolder.status.setBackgroundResource(R.drawable.pattern_diagonal_xml);
+            holder.radicalInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.status.setBackgroundResource(R.drawable.pattern_diagonal_xml);
         } else if (radicalItem.isBurned()) {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
-            viewHolder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            holder.radicalInnerLayout.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
+            holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         } else {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-            viewHolder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            holder.radicalInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
         if (radicalItem.isUnlocked() && !radicalItem.getSrsLevel().equals("")) {
             if (radicalItem.getSrsLevel().equals("apprentice"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_apprentice);
+                holder.srs.setBackgroundResource(R.drawable.oval_apprentice);
             if (radicalItem.getSrsLevel().equals("guru"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_guru);
+                holder.srs.setBackgroundResource(R.drawable.oval_guru);
             if (radicalItem.getSrsLevel().equals("master"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_master);
+                holder.srs.setBackgroundResource(R.drawable.oval_master);
             if (radicalItem.getSrsLevel().equals("enlighten"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_enlightened);
+                holder.srs.setBackgroundResource(R.drawable.oval_enlightened);
             if (radicalItem.getSrsLevel().equals("burned"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_burned);
+                holder.srs.setBackgroundResource(R.drawable.oval_burned);
         } else
-            viewHolder.srs.setBackgroundResource(R.drawable.oval_disabled);
+            holder.srs.setBackgroundResource(R.drawable.oval_disabled);
 
-        viewHolder.meaning.setText(WordUtils.capitalize((radicalItem.getMeaning())));
+        holder.meaning.setText(WordUtils.capitalize((radicalItem.getMeaning())));
 
-        return convertView;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int section = getAdapterPositionSection(holder.getAdapterPosition());
+                int offset = getItemSectionOffset(section, holder.getAdapterPosition());
+
+                int level = levelsZeroIndexed.get(section);
+                BaseItem item = map.get(level).get(offset);
+
+                Intent intent = new Intent(context, ItemDetailsActivity.class);
+                intent.putExtra(ItemDetailsActivity.ARG_ITEM, item);
+                context.startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public long getHeaderId(int position) {
-        return getItem(position).getLevel();
-    }
-
-    @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        HeaderViewHolder holder;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null) {
-            convertView = inflater.inflate(headerResourceId, parent, false);
-            holder = new HeaderViewHolder();
-            holder.textView = (TextView) convertView.findViewById(R.id.header_level);
-            convertView.setTag(holder);
-        } else {
-            holder = (HeaderViewHolder) convertView.getTag();
-        }
-
-        BaseItem item = getItem(position);
-
-        holder.textView.setText(item.getLevel() + "");
-
-        return convertView;
-    }
-
-    protected class ViewHolder {
+    protected static class RadicalItemViewHolder extends ItemViewHolder {
         public FrameLayout card;
+        public RelativeLayout radicalInnerLayout;
         public TextView character;
         public ImageView image;
         public TextView meaning;
         public View status;
         public View srs;
+
+        public RadicalItemViewHolder(View itemView) {
+            super(itemView);
+            card = itemView.findViewById(R.id.item_radical_card);
+            radicalInnerLayout = itemView.findViewById(R.id.item_radical_inner_layout);
+            status = itemView.findViewById(R.id.item_radical_status);
+            character = itemView.findViewById(R.id.item_radical_character);
+            image = itemView.findViewById(R.id.item_radical_character_image);
+            meaning = itemView.findViewById(R.id.item_radical_meaning);
+            srs = itemView.findViewById(R.id.item_radical_srs_level);
+        }
     }
 
-    protected class HeaderViewHolder {
+    protected static class RadicalLevelHeaderViewHolder extends HeaderViewHolder {
         public TextView textView;
+
+        public RadicalLevelHeaderViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.header_level);
+        }
     }
 }
-

@@ -114,8 +114,8 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
         //TODO: There's probably a better way to do this, maybe using dimensions?
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
-        int kanjiItemDimen = 100;
-        int numColumns = (int) (screenWidthDp / kanjiItemDimen + 0.5); // +0.5 for correct rounding to int.
+        int kanjiItemWidth = 100;
+        int numColumns = (int) (screenWidthDp / kanjiItemWidth + 0.5); // +0.5 for correct rounding to int.
         mLayoutManager = new StickyHeaderGridLayoutManager(numColumns);
         mRecycler.setLayoutManager(mLayoutManager);
 
