@@ -84,7 +84,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0px"
                 android:listSelector="@drawable/selector_background_neutral"
-                tools:context="tr.xip.wanikani.app.fragment.NavigationDrawerFragment" />
+                tools:context="com.mrothberg.kakumei.app.fragment.NavigationDrawerFragment" />
         </LinearLayout>
     </ScrollView>
 

@@ -1,2 +1,2 @@
 include ':WaniKani'
-rootProject.name = "WKUpdate"
+rootProject.name = "Kakumei"

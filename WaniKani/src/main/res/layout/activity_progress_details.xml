@@ -56,7 +56,7 @@
 
                         <fragment
                             android:id="@+id/progress_details_progress_card"
-                            android:name="tr.xip.wanikani.app.fragment.card.ProgressCardNoTitle"
+                            android:name="com.mrothberg.kakumei.app.fragment.card.ProgressCardNoTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:layout="@layout/card_progress_no_title" />
@@ -104,7 +104,7 @@
                                     android:inAnimation="@anim/fade_in"
                                     android:outAnimation="@anim/fade_out">
 
-                                    <tr.xip.wanikani.widget.ScrollableGridView
+                                    <com.mrothberg.kakumei.widget.ScrollableGridView
                                         android:id="@+id/progress_details_radicals_grid"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                                     android:inAnimation="@anim/fade_in"
                                     android:outAnimation="@anim/fade_out">
 
-                                    <tr.xip.wanikani.widget.ScrollableGridView
+                                    <com.mrothberg.kakumei.widget.ScrollableGridView
                                         android:id="@+id/progress_details_kanji_grid"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"

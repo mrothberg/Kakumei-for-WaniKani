@@ -29,7 +29,7 @@
             android:text="@string/card_content_reviews_next_review"
             android:textColor="@color/text_gray_light" />
 
-        <tr.xip.wanikani.widget.RelativeTimeTextView
+        <com.mrothberg.kakumei.widget.RelativeTimeTextView
             android:id="@+id/card_reviews_next_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

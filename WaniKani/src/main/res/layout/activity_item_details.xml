@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <tr.xip.wanikani.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.mrothberg.kakumei.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/details_scrollview"
@@ -502,7 +502,7 @@
                                     android:text="@string/card_content_details_progress_next_available_allcaps"
                                     android:textColor="@color/text_gray" />
 
-                                <tr.xip.wanikani.widget.RelativeTimeTextView
+                                <com.mrothberg.kakumei.widget.RelativeTimeTextView
                                     android:id="@+id/details_progress_next_available"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -790,7 +790,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="64dp" />
         </ViewFlipper>
-    </tr.xip.wanikani.widget.ObservableScrollView>
+    </com.mrothberg.kakumei.widget.ObservableScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
