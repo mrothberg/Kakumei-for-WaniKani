@@ -8,7 +8,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-        android:name="com.mrothberg.kakumei.app.App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:imeOptions="flagNoExtractUi"
@@ -24,7 +24,7 @@
             android:resource="@color/apptheme_main" />
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:name=".app.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme_NavigationDrawerActivity">
             <intent-filter>
@@ -35,116 +35,116 @@
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.Browser"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity">
+            android:name=".app.activity.Browser"
+            android:parentActivityName=".app.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.ItemDetailsActivity"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:name=".app.activity.ItemDetailsActivity"
+            android:parentActivityName=".app.activity.MainActivity"
             android:theme="@style/AppTheme_NoActionBar">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.RecentUnlocksActivity"
+            android:name=".app.activity.RecentUnlocksActivity"
             android:label="@string/card_title_recent_unlocks"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity">
+            android:parentActivityName=".app.activity.MainActivity">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.FirstTimeActivity"
+            android:name=".app.activity.FirstTimeActivity"
             android:icon="@drawable/ic_wanikani_stamp" />
 
         <activity
-            android:name="com.mrothberg.kakumei.preference.SettingsActivity"
+            android:name=".preference.SettingsActivity"
             android:label="@string/title_settings"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity">
+            android:parentActivityName=".app.activity.MainActivity">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.WebReviewActivity"
+            android:name=".app.activity.WebReviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|keyboard"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:parentActivityName=".app.activity.MainActivity"
             android:process=":webview"
             android:theme="@style/AppTheme_NoActionBar"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.SWWebReviewActivity"
+            android:name=".app.activity.SWWebReviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|keyboard"
             android:hardwareAccelerated="false"
             android:launchMode="singleTop"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:parentActivityName=".app.activity.MainActivity"
             android:process=":swwebview"
             android:theme="@style/AppTheme_NoActionBar"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.ProgressDetailsActivity"
+            android:name=".app.activity.ProgressDetailsActivity"
             android:label="@string/card_title_progress"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:parentActivityName=".app.activity.MainActivity"
             android:theme="@style/AppTheme_NoActionBar">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.CriticalItemsActivity"
+            android:name=".app.activity.CriticalItemsActivity"
             android:label="@string/card_title_progress"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity">
+            android:parentActivityName=".app.activity.MainActivity">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.NotificationDetailsActivity"
+            android:name=".app.activity.NotificationDetailsActivity"
             android:label="@string/card_title_notifications"
-            android:parentActivityName="com.mrothberg.kakumei.app.activity.MainActivity"
+            android:parentActivityName=".app.activity.MainActivity"
             tools:ignore="UnusedAttribute">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mrothberg.kakumei.app.activity.MainActivity" />
+                android:value=".app.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="com.mrothberg.kakumei.app.activity.DonationsActivity"
+            android:name=".app.activity.DonationsActivity"
             android:label="@string/title_donations" />
 
-        <receiver android:name="com.mrothberg.kakumei.content.notification.NotificationPublisher" />
+        <receiver android:name=".content.notification.NotificationPublisher" />
 
-        <receiver android:name="com.mrothberg.kakumei.content.notification.NotificationReceiver">
+        <receiver android:name=".content.notification.NotificationReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
