@@ -25,7 +25,7 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '29.0.2'
 
 //    playAccountConfigs {
@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
@@ -121,7 +121,6 @@ android {
 
         implementation files('libs/commons-io-2.4.jar')
         implementation files('libs/commons-lang3-3.3.1.jar')
-        implementation files('libs/StickyGridHeaders.aar')
 
         implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
     }

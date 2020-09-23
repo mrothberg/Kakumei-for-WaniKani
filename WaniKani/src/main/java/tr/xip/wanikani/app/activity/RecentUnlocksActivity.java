@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+//import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class RecentUnlocksActivity extends AppCompatActivity {
 
     ActionBar mActionBar;
 
-    StickyGridHeadersGridView mRecentUnlocksGrid;
+//    StickyGridHeadersGridView mRecentUnlocksGrid;
 
     ViewFlipper mViewFlipper;
 
@@ -53,7 +53,7 @@ public class RecentUnlocksActivity extends AppCompatActivity {
 
         mActionBar.setTitle(getString(R.string.card_title_recent_unlocks));
 
-        mRecentUnlocksGrid = (StickyGridHeadersGridView) findViewById(R.id.activity_recent_unlocks_grid);
+//        mRecentUnlocksGrid = (StickyGridHeadersGridView) findViewById(R.id.activity_recent_unlocks_grid);
 
         mViewFlipper = (ViewFlipper) findViewById(R.id.activity_recent_unlocks_view_flipper);
         mViewFlipper.setInAnimation(this, R.anim.abc_fade_in);
@@ -86,11 +86,11 @@ public class RecentUnlocksActivity extends AppCompatActivity {
             void load(RecentUnlocksList list) {
                 recentUnlocksList = list;
 
-                mRecentUnlocksAdapter = new RecentUnlocksStickyHeaderGridViewArrayAdapter(context,
-                        recentUnlocksList, R.layout.header_recent_unlocks, R.layout.item_recent_unlock_grid);
-                mRecentUnlocksGrid.setAdapter(mRecentUnlocksAdapter);
-
-                mRecentUnlocksGrid.setOnItemClickListener(new recentUnlocksListItemClickListener());
+//                mRecentUnlocksAdapter = new RecentUnlocksStickyHeaderGridViewArrayAdapter(context,
+//                        recentUnlocksList, R.layout.header_recent_unlocks, R.layout.item_recent_unlock_grid);
+//                mRecentUnlocksGrid.setAdapter(mRecentUnlocksAdapter);
+//
+//                mRecentUnlocksGrid.setOnItemClickListener(new recentUnlocksListItemClickListener());
 
                 if (mViewFlipper.getDisplayedChild() == 0) {
                     mViewFlipper.showNext();
