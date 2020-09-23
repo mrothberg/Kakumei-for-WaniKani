@@ -35,6 +35,7 @@ android {
 //    }
 
     defaultConfig {
+        applicationId "com.mrothberg.kakumei"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
