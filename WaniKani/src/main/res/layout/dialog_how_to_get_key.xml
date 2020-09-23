@@ -104,15 +104,9 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/guide_get_api_key_settings_api_key"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -128,6 +122,34 @@
                 android:layout_marginLeft="16dp"
                 android:paddingBottom="6dp"
                 android:text="@string/guide_how_to_get_key_step_4"
+                android:textColor="@color/text_gray_dark"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/guide_get_api_key_settings_api_key"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="5"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/text_gray_dark"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:paddingBottom="6dp"
+                android:text="@string/guide_how_to_get_key_step_5"
                 android:textColor="@color/text_gray_dark"/>
 
         </LinearLayout>

@@ -71,7 +71,6 @@ public class FirstTimeActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
                             if(response.isSuccessful() && response.body() != null) {
-                                Log.d(TAG, "successful response??");
                                 response.body().data.save();
                                 PrefManager.setFirstLaunch(false);
                                 WaniKaniApiV2.init();
