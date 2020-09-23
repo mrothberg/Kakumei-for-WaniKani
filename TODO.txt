@@ -8,6 +8,7 @@ High Priority
 - Settings page cleanup (has config for recent unlocks/critical items/notifications)
 
 Medium Priority
+- Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored, can prob extend from a base class
 - Radical/Kanji/Vocab item RecyclerView fast scrolling
 - Radical/Kanji/Vocab item RecyclerView hover over/long press highlighting
 - Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed

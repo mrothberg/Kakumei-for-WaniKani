@@ -1,145 +1,177 @@
 package tr.xip.wanikani.widget.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
+import com.codewaves.stickyheadergrid.StickyHeaderGridAdapter;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import tr.xip.wanikani.R;
-import tr.xip.wanikani.wkamodels.BaseItem;
+import tr.xip.wanikani.app.activity.ItemDetailsActivity;
 import tr.xip.wanikani.utils.Animations;
 import tr.xip.wanikani.utils.Fonts;
+import tr.xip.wanikani.wkamodels.BaseItem;
 
-public class VocabularyAdapter extends StickyGridHeadersSimpleArrayAdapter<BaseItem> {
-    Context context;
-
-    int headerResourceId;
+public class VocabularyAdapter extends StickyHeaderGridAdapter {
+    Map<Integer, List<BaseItem>> map = new LinkedHashMap<>();
+    List<Integer> levelsZeroIndexed;
     Typeface typeface;
-    private List<BaseItem> items;
+    Context context;
+    public static final String TAG = "VocabularyAdapter";
 
-    public VocabularyAdapter(Context context, List<BaseItem> list, int headerResId, int itemResId) {
-        super(context, list, headerResId, itemResId);
-        this.items = list;
+    public VocabularyAdapter(Context context, List<BaseItem> list) {
         this.context = context;
-        this.headerResourceId = headerResId;
         this.typeface = new Fonts().getKanjiFont(context);
+
+        //TODO: clean this up
+        for (BaseItem item : list) {
+            int level = item.getLevel();
+
+            if (map.get(level) != null) {
+                map.get(level).add(item);
+            } else {
+                List<BaseItem> newList = new ArrayList<>();
+                newList.add(item);
+                map.put(level, newList);
+            }
+        }
+
+        this.levelsZeroIndexed = new ArrayList<>(map.keySet());
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+    public int getSectionCount() {
+        return map.size();
+    }
 
-        BaseItem vocabularyItem = items.get(position);
+    @Override
+    public int getSectionItemCount(int section) {
+        int levelZeroIndexed = levelsZeroIndexed.get(section);
+        return map.get(levelZeroIndexed).size();
+    }
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_vocabulary, null);
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_level, parent, false);
+        return new VocabLevelHeaderViewHolder(view);
+    }
 
-            viewHolder = new ViewHolder();
+    @Override
+    public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vocabulary, parent, false);
+        return new VocabItemViewHolder(view);
+    }
 
-            viewHolder.card = (FrameLayout) convertView.findViewById(R.id.item_vocabulary_card);
-            viewHolder.status = convertView.findViewById(R.id.item_vocabulary_status);
-            viewHolder.character = (TextView) convertView.findViewById(R.id.item_vocabulary_character);
-            viewHolder.meaning = (TextView) convertView.findViewById(R.id.item_vocabulary_meaning);
-            viewHolder.kana = (TextView) convertView.findViewById(R.id.item_vocabulary_kana);
-            viewHolder.srs = convertView.findViewById(R.id.item_vocabulary_srs_level);
+    @Override
+    public void onBindHeaderViewHolder(HeaderViewHolder viewHolder, int section) {
+        final VocabLevelHeaderViewHolder holder = (VocabLevelHeaderViewHolder) viewHolder;
+        holder.textView.setText(levelsZeroIndexed.get(section).toString());
+    }
 
-            convertView.setTag(viewHolder);
+    @Override
+    public void onBindItemViewHolder(ItemViewHolder viewHolder, int section, int offset) {
+        final VocabItemViewHolder holder = (VocabItemViewHolder) viewHolder;
+
+        int levelZeroIndexed = levelsZeroIndexed.get(section);
+        BaseItem kanjiItem = map.get(levelZeroIndexed).get(offset);
+
+        holder.card.setLayoutAnimation(Animations.FadeInController());
+
+        holder.character.setText(kanjiItem.getCharacter());
+        holder.character.setTypeface(typeface);
+
+        if (!kanjiItem.isUnlocked()) {
+            holder.vocabInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.status.setBackgroundResource(R.drawable.pattern_diagonal_xml);
+        } else if (kanjiItem.isBurned()) {
+            holder.vocabInnerLayout.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
+            holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         } else {
-            viewHolder = (ViewHolder) (convertView.getTag());
+            holder.vocabInnerLayout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            holder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
-        ((FrameLayout) convertView).setLayoutAnimation(Animations.FadeInController());
-
-        viewHolder.character.setText(vocabularyItem.getCharacter());
-        viewHolder.character.setTypeface(typeface);
-
-        if (!vocabularyItem.isUnlocked()) {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-            viewHolder.status.setBackgroundResource(R.drawable.pattern_diagonal_xml);
-        } else if (vocabularyItem.isBurned()) {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(R.color.wanikani_burned));
-            viewHolder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-        } else {
-            viewHolder.card.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-            viewHolder.status.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-        }
-
-        if (vocabularyItem.isUnlocked()) {
-            if (vocabularyItem.getSrsLevel().equals("apprentice"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_apprentice);
-            if (vocabularyItem.getSrsLevel().equals("guru"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_guru);
-            if (vocabularyItem.getSrsLevel().equals("master"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_master);
-            if (vocabularyItem.getSrsLevel().equals("enlighten"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_enlightened);
-            if (vocabularyItem.getSrsLevel().equals("burned"))
-                viewHolder.srs.setBackgroundResource(R.drawable.oval_burned);
+        if (kanjiItem.isUnlocked()) {
+            if (kanjiItem.getSrsLevel().equals("apprentice"))
+                holder.srs.setBackgroundResource(R.drawable.oval_apprentice);
+            if (kanjiItem.getSrsLevel().equals("guru"))
+                holder.srs.setBackgroundResource(R.drawable.oval_guru);
+            if (kanjiItem.getSrsLevel().equals("master"))
+                holder.srs.setBackgroundResource(R.drawable.oval_master);
+            if (kanjiItem.getSrsLevel().equals("enlighten"))
+                holder.srs.setBackgroundResource(R.drawable.oval_enlightened);
+            if (kanjiItem.getSrsLevel().equals("burned"))
+                holder.srs.setBackgroundResource(R.drawable.oval_burned);
         } else
-            viewHolder.srs.setBackgroundResource(R.drawable.oval_disabled);
+            holder.srs.setBackgroundResource(R.drawable.oval_disabled);
 
-        String readingsString = vocabularyItem.getKana();
+        String readingsString = kanjiItem.getKana();
         if (readingsString != null) {
             String[] readings = readingsString.split(",");
-            viewHolder.kana.setText(readings[0]);
-            viewHolder.kana.setTypeface(typeface);
+            holder.kana.setText(readings[0]);
+            holder.kana.setTypeface(typeface);
         }
 
-        String[] meanings = vocabularyItem.getMeaning().split(",");
+        String[] meanings = kanjiItem.getMeaning().split(",");
 
-        viewHolder.meaning.setText(WordUtils.capitalize(meanings[0]));
+        holder.meaning.setText(WordUtils.capitalize(meanings[0]));
 
-        return convertView;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int section = getAdapterPositionSection(holder.getAdapterPosition());
+                int offset = getItemSectionOffset(section, holder.getAdapterPosition());
+
+                int level = levelsZeroIndexed.get(section);
+                BaseItem item = map.get(level).get(offset);
+
+                Intent intent = new Intent(context, ItemDetailsActivity.class);
+                intent.putExtra(ItemDetailsActivity.ARG_ITEM, item);
+                context.startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public long getHeaderId(int position) {
-        return getItem(position).getLevel();
-    }
-
-    @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        HeaderViewHolder holder;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null) {
-            convertView = inflater.inflate(headerResourceId, parent, false);
-            holder = new HeaderViewHolder();
-            holder.textView = (TextView) convertView.findViewById(R.id.header_level);
-            convertView.setTag(holder);
-        } else {
-            holder = (HeaderViewHolder) convertView.getTag();
-        }
-
-        BaseItem item = getItem(position);
-
-        holder.textView.setText(item.getLevel() + "");
-
-        return convertView;
-    }
-
-    protected class ViewHolder {
+    protected static class VocabItemViewHolder extends ItemViewHolder {
         public FrameLayout card;
+        public LinearLayout vocabInnerLayout;
         public TextView character;
         public TextView meaning;
         public TextView kana;
         public View status;
         public View srs;
+
+        public VocabItemViewHolder(View itemView) {
+            super(itemView);
+            card = itemView.findViewById(R.id.item_vocabulary_card);
+            vocabInnerLayout = itemView.findViewById(R.id.item_vocabulary_inner_layout);
+            status = itemView.findViewById(R.id.item_vocabulary_status);
+            character = itemView.findViewById(R.id.item_vocabulary_character);
+            meaning = itemView.findViewById(R.id.item_vocabulary_meaning);
+            kana = itemView.findViewById(R.id.item_vocabulary_kana);
+            srs = itemView.findViewById(R.id.item_vocabulary_srs_level);
+        }
     }
 
-    protected class HeaderViewHolder {
+    protected static class VocabLevelHeaderViewHolder extends HeaderViewHolder {
         public TextView textView;
+
+        public VocabLevelHeaderViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.header_level);
+        }
     }
-
 }
-
