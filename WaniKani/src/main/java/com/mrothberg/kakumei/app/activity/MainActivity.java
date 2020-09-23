@@ -2,6 +2,7 @@ package com.mrothberg.kakumei.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.app.fragment.DashboardFragment;
 import com.mrothberg.kakumei.app.fragment.KanjiFragment;
 import com.mrothberg.kakumei.app.fragment.NavigationDrawerFragment;
@@ -24,6 +26,10 @@ import com.mrothberg.kakumei.content.receiver.BroadcastIntents;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.Notification;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -81,6 +87,19 @@ public class MainActivity extends AppCompatActivity
                     (DrawerLayout) findViewById(R.id.drawer_layout));
         }
 
+        WaniKaniApiV2.getUser().enqueue(new Callback<UserRequest>() {
+            @Override
+            public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
+                if (response.isSuccessful() && response.body().data != null) {
+                    DatabaseManager.saveUserV2(response.body().data);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserRequest> call, Throwable t) {
+
+            }
+        });
 
     }
 

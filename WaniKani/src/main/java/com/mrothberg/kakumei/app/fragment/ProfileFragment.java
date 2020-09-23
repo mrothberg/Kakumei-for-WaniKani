@@ -20,6 +20,12 @@ import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.apimodels.UserData;
 import com.mrothberg.kakumei.apimodels.UserRequest;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by xihsa_000 on 3/11/14.
  */
@@ -95,8 +101,16 @@ public class ProfileFragment extends Fragment {
 
                 mUsername.setText(user.username);
                 mLevel.setText(user.level + "");
-//                mCreationDate.setText(new SimpleDateFormat("MMMM d, yyyy").format(user.getCreationDateInMillis()));
-                mCreationDate.setText(user.started_at);
+                String creationDate = user.started_at;
+                final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                iso8601Parser.setTimeZone(TimeZone.getTimeZone("UTC"));
+                try {
+                    Date startDate = iso8601Parser.parse(creationDate);
+                    creationDate = startDate.toString();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mCreationDate.setText(creationDate);
                 mSubscriptionType.setText(user.subscription.type);
 
                 if (mViewFlipper.getDisplayedChild() == 1) {

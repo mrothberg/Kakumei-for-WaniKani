@@ -1,11 +1,12 @@
 
 High Priority
-- Subscription support!!! - can only show users subject data up to their subbed level
-- Profile fragment - parse join date nicely
+- Profile fragment - parse join date nicer
 - Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
 - Clean up gradle scripts (should also prob bump dependency versions)
 - Firebase stuff
 - Migrate to AndroidX
+- Rename android studio project to Kakumei
+- Subscription support - should only show users subject data up to their subbed level
 
 Medium Priority
 - Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored, can prob extend from a base class
