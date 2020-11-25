@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 def versionMajor = 2
 def versionMinor = 0
-def versionPatch = 2
+def versionPatch = 4
 def versionBuild = Integer.parseInt(System.getenv('TRAVIS_BUILD_NUMBER') ?: "1")
 
 def keystoreAlias = System.getenv('keystoreAlias') ?: project.property("wanikani.signing.upload.alias")

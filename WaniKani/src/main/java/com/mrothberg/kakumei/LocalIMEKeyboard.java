@@ -817,10 +817,15 @@ public class LocalIMEKeyboard implements Keyboard {
                     "   var qtype, e;" +
                     "   qtype = $.jStorage.get (\"l/questionType\");" +
                     "   window.wknReplace ();" +
-                    "   if ($(\"#main-info\").hasClass (\"vocabulary\")) {" +
-                    "        e = $(\"#character\");" +
-                    "        e.text (e.text ().replace (/〜/g, \"~\")); " +
-                    "   }" +
+                    // Always update character text based on storage to ensure text is always correct
+                    "   var currentQuizItem = $.jStorage.get(\"l/currentQuizItem\");" +
+                    "   e = $(\"#character\");" +
+                    "   if (currentQuizItem.voc != null)" +
+                    "        e.text(currentQuizItem.voc);" +
+                    "   if (currentQuizItem.rad != null) " +
+                    "        e.text(currentQuizItem.rad);" +
+                    "   if (currentQuizItem.kan != null) " +
+                    "        e.text(currentQuizItem.kan);" +
                     "   if ($(\"#quiz\").is (\":visible\"))" +
                     "       wknJSListener.newQuestion (qtype, -1);" +
                     "};" +

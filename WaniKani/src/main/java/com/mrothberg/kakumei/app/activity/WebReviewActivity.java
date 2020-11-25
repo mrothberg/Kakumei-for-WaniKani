@@ -863,6 +863,9 @@ public class WebReviewActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 17) {
             wv.getSettings().setMediaPlaybackRequiresUserGesture(false);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         wv.addJavascriptInterface (new WKNKeyboard (), "wknKeyboard");
         wv.setScrollBarStyle (ScrollView.SCROLLBARS_OUTSIDE_OVERLAY);
