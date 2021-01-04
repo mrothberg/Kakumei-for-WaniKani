@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/item_card"
                     app:cardUseCompatPadding="true"
                     android:layout_width="match_parent"
@@ -107,9 +107,9 @@
                             android:textColor="@android:color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/details_alternative_meanings_and_user_synonyms_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,9 +169,9 @@
 
                         </LinearLayout>
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/details_readings_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -256,9 +256,9 @@
                                 tools:text="なか" />
                         </LinearLayout>
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/details_reading_note_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -286,9 +286,9 @@
                             android:textColor="@color/text_gray"
                             tools:text="Something" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/details_meaning_note_card"
                     android:layout_width="match_parent"
                     app:cardUseCompatPadding="true"
@@ -316,9 +316,9 @@
                             android:textColor="@color/text_gray"
                             tools:text="Something" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/details_progress_card"
                     android:layout_width="match_parent"
                     app:cardUseCompatPadding="true"
@@ -781,7 +781,7 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
             <ProgressBar
@@ -792,7 +792,7 @@
         </ViewFlipper>
     </com.mrothberg.kakumei.widget.ObservableScrollView>
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
