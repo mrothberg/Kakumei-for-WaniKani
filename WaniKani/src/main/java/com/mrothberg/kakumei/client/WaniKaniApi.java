@@ -1,7 +1,6 @@
 package com.mrothberg.kakumei.client;
 
-import java.util.concurrent.CompletableFuture;
-
+import java9.util.concurrent.CompletableFuture;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;

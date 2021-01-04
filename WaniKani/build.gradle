@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId "com.mrothberg.kakumei"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -69,6 +69,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -122,6 +123,9 @@ android {
         implementation files('libs/commons-lang3-3.3.1.jar')
 
         implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
+
+        implementation 'net.sourceforge.streamsupport:android-retrofuture:1.7.2'
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
     }
 }
 
