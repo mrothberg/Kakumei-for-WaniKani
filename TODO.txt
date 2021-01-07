@@ -10,6 +10,8 @@ High Priority
 - Rename android studio project to Kakumei
 - Subscription support - should only show users subject data up to their subbed level
 - Clean up gradle scripts (should also prob bump dependency versions)
+- Support correct back button navigation between main fragments (dashboard, radicals, kanji, vocab...) & add quit confirmation
+- Notifications support
 
 Medium Priority
 - Dark mode
@@ -23,7 +25,6 @@ Medium Priority
 - Reduce number of API requests made When navigating from the Dashboard to the ProgressDetailsActivity (by clicking progress card)
 - Better caching of user - we make too many api calls to get the user's current level (maybe attach user obj to sync intent)
 - Clean up User stuff - made changes before WaniKaniAPIV1Interface created
-- Notifications support
 - Vacation Mode support
 - Donations View currently just blank, do something with it (remove?)
 
@@ -34,9 +35,7 @@ Low Priority
 - Recent Unlocks and Critical Items Views
 - Tests (UT, IT)
 - Java date objects instead of Strings in api models?
-- Support back button navigation between main fragments (dashboard, radicals, kanji, vocab...)
 - BaseItem methods - getKana() getOnyomi() getKunyomi() can prob be refactored
-
 
 Other Ideas
 - Timber for logging
