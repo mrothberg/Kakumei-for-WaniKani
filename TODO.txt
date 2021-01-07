@@ -1,14 +1,18 @@
 
 High Priority
-- Profile fragment - parse join date nicer
+- Lessons issues - Blank screen due to wk script crashes
+                 - Bharacter doesn't update when you proceed to a 2nd set of lessons
+- Fix crashing when can't access WaniKani API
+- Use Github Issues/Milestones to track bugs and features
+- Firebase stuff - Crashlytics done, monitor for crashes. Potentially add more custom logging
 - Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
-- Clean up gradle scripts (should also prob bump dependency versions)
-- Firebase stuff
-- Migrate to AndroidX
+- Profile fragment - parse join date nicer
 - Rename android studio project to Kakumei
 - Subscription support - should only show users subject data up to their subbed level
+- Clean up gradle scripts (should also prob bump dependency versions)
 
 Medium Priority
+- Dark mode
 - Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored, can prob extend from a base class
 - Radical/Kanji/Vocab item RecyclerView fast scrolling
 - Radical/Kanji/Vocab item RecyclerView hover over/long press highlighting
