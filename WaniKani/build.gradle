@@ -4,7 +4,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 def versionMajor = 2
 def versionMinor = 0
-def versionPatch = 5
+def versionPatch = 6
 def versionBuild = Integer.parseInt(System.getenv('TRAVIS_BUILD_NUMBER') ?: "1")
 
 def keystoreAlias = System.getenv('keystoreAlias') ?: project.property("wanikani.signing.upload.alias")

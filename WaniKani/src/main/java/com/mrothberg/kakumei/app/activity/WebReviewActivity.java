@@ -17,6 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieSyncManager;
@@ -80,6 +82,8 @@ import com.mrothberg.kakumei.userscripts.PartOfSpeech;
  * The JavascriptObject is implemented by @link WebReviewActivity.WKNKeyboard.
  */
 public class WebReviewActivity extends AppCompatActivity {
+
+    private static final String TAG = "WebReviewActivity";
 
     /**
      * This class is barely a container of all the strings that should match with the
@@ -425,7 +429,11 @@ public class WebReviewActivity extends AppCompatActivity {
 
             public PrefManager.Keyboard getKeyboard (WebReviewActivity wav)
             {
-                return PrefManager.getReviewsKeyboard();
+                //TODO: Currently forcing native keyboard in lessons due to crash
+                //      Investigate root cause - the custom javascript is making modifications that causes
+                //      WaniKani's react render loop to crash
+//                return PrefManager.getReviewsKeyboard();
+                return PrefManager.Keyboard.NATIVE;
             }
 
             public boolean canMute ()
@@ -1059,10 +1067,12 @@ public class WebReviewActivity extends AppCompatActivity {
 
         switch (kbstatus.getKeyboard (this)) {
             case LOCAL_IME:
+                Log.d(TAG, "Using LocalIMEKeyboard");
                 keyboard = localIMEKeyboard;
                 break;
 
             case NATIVE:
+                Log.d(TAG, "Using NativeKeyboard");
                 keyboard = nativeKeyboard;
                 break;
         }
