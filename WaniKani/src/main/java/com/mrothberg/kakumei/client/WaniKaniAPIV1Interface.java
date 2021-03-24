@@ -2,6 +2,7 @@ package com.mrothberg.kakumei.client;
 
 import java.io.Serializable;
 
+import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.wkamodels.KanjiList;
 import com.mrothberg.kakumei.wkamodels.LevelProgression;
 import com.mrothberg.kakumei.wkamodels.RadicalsList;
@@ -13,9 +14,7 @@ import java9.util.concurrent.CompletableFuture;
 
 
 public interface WaniKaniAPIV1Interface extends Serializable {
-    String RADICAL = "radical";
-    String KANJI = "kanji";
-    String VOCABULARY = "vocabulary";
+    CompletableFuture<UserRequest> getUser();
 
     CompletableFuture<StudyQueue> getStudyQueue();
 

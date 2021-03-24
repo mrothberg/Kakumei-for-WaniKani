@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.apimodels.UserData;
 import com.mrothberg.kakumei.widget.adapter.NavigationItemsAdapter;
@@ -60,6 +61,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private WaniKaniAPIV1Interface waniKaniAPIV1Interface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,7 @@ public class NavigationDrawerFragment extends Fragment {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new ProfileFragment())
+                        .replace(R.id.container, new ProfileFragment(waniKaniAPIV1Interface))
                         .commit();
                 // We dedicate 100 for profile
                 selectItem(100);
@@ -297,6 +300,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void showlogoutDialog() {
         new LogoutDialogFragment().show(getActivity().getSupportFragmentManager(), "logout-dialog");
+    }
+
+    public void setWaniKaniAPI(WaniKaniAPIV1Interface waniKaniAPI) {
+        this.waniKaniAPIV1Interface = waniKaniAPI;
     }
 
     public static interface NavigationDrawerCallbacks {

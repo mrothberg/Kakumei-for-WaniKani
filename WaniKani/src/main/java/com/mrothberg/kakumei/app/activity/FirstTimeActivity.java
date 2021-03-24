@@ -12,14 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
+import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
 import com.mrothberg.kakumei.dialogs.HowToGetKeyDialogFragment;
 import com.mrothberg.kakumei.managers.PrefManager;
-import com.mrothberg.kakumei.apimodels.UserRequest;
 
 public class FirstTimeActivity extends AppCompatActivity {
     public static final String TAG = "FirstTimeActivity";
@@ -30,6 +28,8 @@ public class FirstTimeActivity extends AppCompatActivity {
     ViewSwitcher mViewSwitcher;
 
     Context context;
+
+    WaniKaniAPIV1Interface waniKaniAPIV1Interface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,35 +64,26 @@ public class FirstTimeActivity extends AppCompatActivity {
                     }
 
                     //TODO: rethink api key initialization - static calls :(
-                    PrefManager.setApiKey(mApiKey.getText().toString());
-                    WaniKaniApiV2.init();
-                    //TODO: DI interface instead of this static call
-                    WaniKaniApiV2.getUser().enqueue(new Callback<UserRequest>() {
-                        @Override
-                        public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
-                            if(response.isSuccessful() && response.body() != null) {
-                                response.body().data.save();
-                                PrefManager.setFirstLaunch(false);
-                                WaniKaniApiV2.init();
-
-                                startActivity(new Intent(context, MainActivity.class));
-                                finish();
-                            } else {
-                                onFailure(call, null);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<UserRequest> call, Throwable t) {
-                            Log.e(TAG, "Error making getUser() call", t);
+                    String apiKey = mApiKey.getText().toString();
+                    PrefManager.setApiKey(apiKey);
+                    waniKaniAPIV1Interface = new WaniKaniApiV2(new WaniKaniServiceV2Builder(apiKey));
+                    waniKaniAPIV1Interface.getUser().whenComplete((userRequest, throwable) -> {
+                        if(throwable != null || userRequest == null) {
+                            Log.e(TAG, "Error making getUser() call", throwable);
 
                             if (mViewSwitcher.getDisplayedChild() == 1) {
                                 mViewSwitcher.showPrevious();
                             }
                             Toast.makeText(context, R.string.error_invalid_api_key, Toast.LENGTH_SHORT).show();
+                            return;
                         }
+
+                        userRequest.data.save();
+                        startActivity(new Intent(context, MainActivity.class));
+                        finish();
                     });
 
+                    //TODO: notifications
 //                    WaniKaniApi.getUser(mApiKey.getText().toString()).enqueue(new ThroughDbCallback<Request<User>, User>() {
 //                        @Override
 //                        public void onResponse(Call<Request<User>> call, Response<Request<User>> response) {

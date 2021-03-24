@@ -9,16 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import com.mrothberg.kakumei.R;
 import com.mrothberg.kakumei.app.activity.MainActivity;
-import com.mrothberg.kakumei.client.WaniKaniApiV2;
+import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.apimodels.UserData;
-import com.mrothberg.kakumei.apimodels.UserRequest;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,6 +35,12 @@ public class ProfileFragment extends Fragment {
     TextView mSubscriptionType;
 
     ViewFlipper mViewFlipper;
+
+    private WaniKaniAPIV1Interface waniKaniAPIV1Interface;
+
+    public ProfileFragment(WaniKaniAPIV1Interface waniKaniAPIV1Interface) {
+        this.waniKaniAPIV1Interface = waniKaniAPIV1Interface;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,49 +81,41 @@ public class ProfileFragment extends Fragment {
     }
 
     public void fetchData() {
-        WaniKaniApiV2.getUser().enqueue(new Callback<UserRequest>() {
-            @Override
-            public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
-                if (response.isSuccessful() && response.body().data != null) {
-                    load(response.body().data);
-                } else {
-                    onFailure(call, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserRequest> call, Throwable t) {
+        waniKaniAPIV1Interface.getUser().whenComplete((userRequest, throwable) -> {
+            if(throwable != null) {
                 UserData user = DatabaseManager.getUserV2();
                 if (user != null) {
                     load(user);
                 }
+                return;
             }
 
-            void load(UserData user) {
-
-                mUsername.setText(user.username);
-                mLevel.setText(user.level + "");
-                String creationDate = user.started_at;
-                final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                iso8601Parser.setTimeZone(TimeZone.getTimeZone("UTC"));
-                try {
-                    Date startDate = iso8601Parser.parse(creationDate);
-                    creationDate = startDate.toString();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                mCreationDate.setText(creationDate);
-                mSubscriptionType.setText(user.subscription.type);
-
-                if (mViewFlipper.getDisplayedChild() == 1) {
-                    mViewFlipper.showPrevious();
-                }
-
-                if (PrefManager.isProfileFirstTime()) {
-                    PrefManager.setProfileFirstTime(false);
-                }
-            }
+            load(userRequest.data);
         });
+    }
+
+    private void load(UserData user) {
+        mUsername.setText(user.username);
+        mLevel.setText(user.level + "");
+        String creationDate = user.started_at;
+        final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        iso8601Parser.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date startDate = iso8601Parser.parse(creationDate);
+            creationDate = startDate.toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mCreationDate.setText(creationDate);
+        mSubscriptionType.setText(user.subscription.type);
+
+        if (mViewFlipper.getDisplayedChild() == 1) {
+            mViewFlipper.showPrevious();
+        }
+
+        if (PrefManager.isProfileFirstTime()) {
+            PrefManager.setProfileFirstTime(false);
+        }
     }
 }
 

@@ -105,7 +105,7 @@ public class DashboardFragment extends Fragment
         }
     };
 
-    public void setWaniKanAPI(WaniKaniAPIV1Interface waniKaniAPI) {
+    public void setWaniKaniAPI(WaniKaniAPIV1Interface waniKaniAPI) {
         this.waniKaniAPI = waniKaniAPI;
     }
 

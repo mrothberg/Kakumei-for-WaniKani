@@ -125,7 +125,15 @@ android {
         implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
 
         implementation 'net.sourceforge.streamsupport:android-retrofuture:1.7.2'
+
+        testImplementation "org.mockito:mockito-core:3.8.0"
+        testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
+
         coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 

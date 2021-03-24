@@ -3,7 +3,6 @@ package com.mrothberg.kakumei.client;
 import android.util.Log;
 import android.util.Pair;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,17 +14,11 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import java9.util.concurrent.CompletableFuture;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import com.mrothberg.kakumei.BuildConfig;
+import retrofit2.Response;
+
 import com.mrothberg.kakumei.database.DatabaseManager;
-import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.BaseItem;
 import com.mrothberg.kakumei.wkamodels.KanjiList;
 import com.mrothberg.kakumei.wkamodels.LevelProgression;
@@ -40,54 +33,42 @@ import com.mrothberg.kakumei.apimodels.SummaryRequest;
 import com.mrothberg.kakumei.apimodels.UserRequest;
 
 public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
-    private static final String API_HOST = "https://api.wanikani.com/v2/";
+
     private static final String TAG = "WaniKaniApiV2";
 
     private static WaniKaniServiceV2 service;
-    private static String API_KEY;
 
     private static final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    static {
-        init();
-    }
+    private static final String RADICAL = "radical";
+    private static final String KANJI = "kanji";
+    private static final String VOCABULARY = "vocabulary";
 
-    public static void init() {
-        API_KEY = PrefManager.getApiKey();
+    public WaniKaniApiV2(WaniKaniServiceV2BuilderInterface serviceBuilder) {
         iso8601Parser.setTimeZone(TimeZone.getTimeZone("UTC"));
-        setupService();
+        service = serviceBuilder.buildService();
     }
 
-    private static void setupService() {
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            clientBuilder.addInterceptor(httpLoggingInterceptor);
-        }
-
-        Interceptor bearerAuthInterceptor = new Interceptor() {
+    public CompletableFuture<UserRequest> getUser() {
+        CompletableFuture<UserRequest> future = new CompletableFuture<>();
+        service.getUser().enqueue(new Callback<UserRequest>() {
             @Override
-            public Response intercept(Chain chain) throws IOException {
-                okhttp3.Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer " + API_KEY)
-                        .build();
-                return chain.proceed(newRequest);
+            public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
+                if(!response.isSuccessful() || response.body() == null) {
+                    onFailure(call, new Throwable("Failure retrieving user information from api"));
+                    return;
+                }
+                response.body().data.save();
+                future.complete(response.body());
             }
-        };
-        clientBuilder.addInterceptor(bearerAuthInterceptor);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(clientBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(API_HOST)
-                .build();
-
-        service = retrofit.create(WaniKaniServiceV2.class);
-    }
-
-    public static Call<UserRequest> getUser() {
-        return service.getUser();
+            @Override
+            public void onFailure(Call<UserRequest> call, Throwable t) {
+                Log.e(TAG, "Failed getting user data", t);
+                future.completeExceptionally(t);
+            }
+        });
+        return future;
     }
 
     @Override

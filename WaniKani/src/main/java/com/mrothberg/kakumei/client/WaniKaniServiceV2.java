@@ -10,7 +10,6 @@ import com.mrothberg.kakumei.apimodels.SummaryRequest;
 import com.mrothberg.kakumei.apimodels.UserRequest;
 
 public interface WaniKaniServiceV2 {
-
     @GET("user")
     Call<UserRequest> getUser();
 

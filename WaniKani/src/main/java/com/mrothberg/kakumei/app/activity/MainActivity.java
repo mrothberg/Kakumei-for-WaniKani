@@ -10,31 +10,31 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mrothberg.kakumei.R;
-import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.app.fragment.DashboardFragment;
 import com.mrothberg.kakumei.app.fragment.KanjiFragment;
 import com.mrothberg.kakumei.app.fragment.NavigationDrawerFragment;
 import com.mrothberg.kakumei.app.fragment.RadicalsFragment;
 import com.mrothberg.kakumei.app.fragment.VocabularyFragment;
 import com.mrothberg.kakumei.app.fragment.card.AvailableCard;
+import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
+import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
 import com.mrothberg.kakumei.content.receiver.BroadcastIntents;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.Notification;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final String STATE_ACTIONBAR_TITLE = "action_bar_title";
+    private static final String TAG = "MainActivity";
 
     public static boolean isFirstSyncDashboardDone = false;
     public static boolean isFirstSyncProfileDone = false;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private WaniKaniApiV2 waniKaniAPI = new WaniKaniApiV2();
+    private WaniKaniAPIV1Interface waniKaniAPI;
 
     @Override
     public void onResume() {
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, FirstTimeActivity.class));
             finish();
         } else {
+            waniKaniAPI = new WaniKaniApiV2(new WaniKaniServiceV2Builder(PrefManager.getApiKey()));
+
             setContentView(R.layout.activity_main);
             handleNotification(getIntent());
 
@@ -85,22 +87,13 @@ public class MainActivity extends AppCompatActivity
             mNavigationDrawerFragment.setUp(
                     R.id.navigation_drawer_holder,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
+
+            mNavigationDrawerFragment.setWaniKaniAPI(waniKaniAPI);
+
+            waniKaniAPI.getUser().whenComplete((userRequest, throwable) -> {
+                Log.d(TAG, "Stored user in database");
+            });
         }
-
-        WaniKaniApiV2.getUser().enqueue(new Callback<UserRequest>() {
-            @Override
-            public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
-                if (response.isSuccessful() && response.body().data != null) {
-                    DatabaseManager.saveUserV2(response.body().data);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserRequest> call, Throwable t) {
-
-            }
-        });
-
     }
 
     @Override
@@ -111,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         switch (position) {
             case 0:
                 DashboardFragment df = new DashboardFragment();
-                df.setWaniKanAPI(waniKaniAPI);
+                df.setWaniKaniAPI(waniKaniAPI);
                 fragment = df;
                 mTitle = getString(R.string.title_dashboard);
                 break;

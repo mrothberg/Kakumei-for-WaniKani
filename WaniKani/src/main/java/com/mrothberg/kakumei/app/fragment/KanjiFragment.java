@@ -23,14 +23,9 @@ import com.codewaves.stickyheadergrid.StickyHeaderGridLayoutManager;
 import java.util.Collections;
 import java.util.Comparator;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import com.mrothberg.kakumei.R;
 import com.mrothberg.kakumei.apimodels.UserData;
-import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
-import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.dialogs.LegendDialogFragment;
 import com.mrothberg.kakumei.dialogs.LevelPickerDialogFragment;
@@ -144,20 +139,11 @@ public class KanjiFragment extends Fragment implements LevelPickerDialogFragment
             setLevel(user.level);
             fetchData();
         } else {
-            WaniKaniApiV2.getUser().enqueue(new Callback<UserRequest>() {
-                @Override
-                public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
-                    if (response.isSuccessful() && response.body().data != null) {
-                        setLevel(response.body().data.level);
-                        fetchData();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<UserRequest> call, Throwable t) {
-
-                }
-
+            waniKaniAPI.getUser().whenComplete((userRequest, throwable) -> {
+               if(throwable != null) {
+                   setLevel(userRequest.data.level);
+                   fetchData();
+               }
             });
         }
     }

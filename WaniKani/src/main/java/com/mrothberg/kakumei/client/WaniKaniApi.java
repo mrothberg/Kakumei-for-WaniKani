@@ -8,6 +8,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.mrothberg.kakumei.BuildConfig;
+import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.client.task.callback.ThroughDbCallback;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.CriticalItemsList;
@@ -53,10 +54,6 @@ class WaniKaniApi implements WaniKaniAPIV1Interface {
 
         service = retrofit.create(WaniKaniService.class);
     }
-
-//    public static Call<Request<User>> getUser() {
-//        return service.getUser(API_KEY);
-//    }
 
     public static Call<Request<User>> getUser(String apiKey) {
         return service.getUser(apiKey);
@@ -201,6 +198,11 @@ class WaniKaniApi implements WaniKaniAPIV1Interface {
             }
         });
         return vocabListFuture;
+    }
+
+    @Override
+    public CompletableFuture<UserRequest> getUser() {
+        return null;
     }
 
     @Override
