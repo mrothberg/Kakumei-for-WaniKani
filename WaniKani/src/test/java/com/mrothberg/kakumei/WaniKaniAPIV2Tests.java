@@ -1,11 +1,16 @@
 package com.mrothberg.kakumei;
 
+import com.google.gson.Gson;
+import com.mrothberg.kakumei.apimodels.Assignments;
+import com.mrothberg.kakumei.apimodels.ReviewStatistics;
+import com.mrothberg.kakumei.apimodels.Subjects;
 import com.mrothberg.kakumei.apimodels.UserData;
 import com.mrothberg.kakumei.apimodels.UserRequest;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2BuilderInterface;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2;
+import com.mrothberg.kakumei.wkamodels.KanjiList;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -13,6 +18,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import java9.util.concurrent.CompletableFuture;
@@ -56,7 +62,7 @@ public class WaniKaniAPIV2Tests {
     }
 
     @Test
-    public void testGetUser() throws ExecutionException, InterruptedException {
+    public void getUser_savesUserDataToDatabase() throws ExecutionException, InterruptedException {
         Call<UserRequest> mockCall = mock(Call.class);
         UserRequest res = mock(UserRequest.class);
         UserData data = mock(UserData.class);
@@ -72,14 +78,17 @@ public class WaniKaniAPIV2Tests {
             return null;
         }).when(mockCall).enqueue(any(Callback.class));
 
-        CompletableFuture<UserRequest> test = waniKaniAPIV1Interface.getUser();
+        CompletableFuture<UserRequest> fut = waniKaniAPIV1Interface.getUser();
         verify(data).save();
     }
 
     @Test
-    public void testUserThing() {
+    public void getUserRequestFails_completesExceptionally() {
         Call<UserRequest> mockCall = mock(Call.class);
 
+        //TODO: This is required because the Response that gets passed into callback.onResponse()
+        //      cannot be mocked bc retrofit2.Response is a final class - try Mockito exentions
+        //      that allows mocking final classes
         ResponseBody mockResponseBody = ResponseBody.create("", MediaType.parse("application/json"));
         okhttp3.Response.Builder builder = new okhttp3.Response.Builder();
         okhttp3.Response mockResponse = builder
@@ -96,10 +105,64 @@ public class WaniKaniAPIV2Tests {
             return null;
         }).when(mockCall).enqueue(any(Callback.class));
 
-        CompletableFuture<UserRequest> test = waniKaniAPIV1Interface.getUser();
-        Exception exception = assertThrows(ExecutionException.class, test::get);
+        CompletableFuture<UserRequest> fut = waniKaniAPIV1Interface.getUser();
+        Exception exception = assertThrows(ExecutionException.class, fut::get);
         assertEquals("java.lang.Throwable: Failure retrieving user information from api",
                               exception.getMessage());
+    }
+
+    @Test
+    public void testGetKanjiListWithMocks() throws ExecutionException, InterruptedException {
+        String level = "1";
+        Call<Subjects> mockSubjectsCall = mock(Call.class);
+        Subjects mockSubjects = mock(Subjects.class);
+        Subjects.SubjectItem mockSubjectItem = mock(Subjects.SubjectItem.class);
+        mockSubjects.data = new ArrayList<>();
+        mockSubjects.data.add(mockSubjectItem);
+        when(mockAPIService.getSubjectItems(level, "kanji")).thenReturn(mockSubjectsCall);
+        doAnswer(invocation -> {
+            Callback<Subjects> callback = invocation.getArgument(0);
+            callback.onResponse(mockSubjectsCall, Response.success(mockSubjects));
+            return null;
+        }).when(mockSubjectsCall).enqueue(any(Callback.class));
+        CompletableFuture<KanjiList> fut = waniKaniAPIV1Interface.getKanjiList(level);
+
+    }
+
+    @Test
+    public void testGetKanjiListRealData() throws ExecutionException, InterruptedException {
+        String level = "1";
+        Gson gson = new Gson();
+        Subjects subjects = gson.fromJson(JsonResponses.level1KanjiSubjects, Subjects.class);
+
+        Call<Subjects> mockSubjectsCall = mock(Call.class);
+        when(mockAPIService.getSubjectItems(level, "kanji")).thenReturn(mockSubjectsCall);
+        doAnswer(invocation -> {
+            Callback<Subjects> callback = invocation.getArgument(0);
+            callback.onResponse(mockSubjectsCall, Response.success(subjects));
+            return null;
+        }).when(mockSubjectsCall).enqueue(any(Callback.class));
+
+        Assignments assignments = gson.fromJson(JsonResponses.assignments, Assignments.class);
+        Call<Assignments> mockAssignmentsCall = mock(Call.class);
+        when(mockAPIService.getAssignments(level, "kanji")).thenReturn(mockAssignmentsCall);
+        doAnswer(invocation -> {
+            Callback<Assignments> callback = invocation.getArgument(0);
+            callback.onResponse(mockAssignmentsCall, Response.success(assignments));
+            return null;
+        }).when(mockAssignmentsCall).enqueue(any(Callback.class));
+
+        ReviewStatistics reviewStatistics = gson.fromJson(JsonResponses.reviewStatistics, ReviewStatistics.class);
+        Call<ReviewStatistics> mockReviewStatsCall = mock(Call.class);
+        when(mockAPIService.getReviewStatistics(any(String.class))).thenReturn(mockReviewStatsCall);
+        doAnswer(invocation -> {
+            Callback<ReviewStatistics> callback = invocation.getArgument(0);
+            callback.onResponse(mockReviewStatsCall, Response.success(reviewStatistics));
+            return null;
+        }).when(mockReviewStatsCall).enqueue(any(Callback.class));
+
+        CompletableFuture<KanjiList> fut = waniKaniAPIV1Interface.getKanjiList(level);
+        KanjiList kanjiList = fut.get();
     }
 
     @Test

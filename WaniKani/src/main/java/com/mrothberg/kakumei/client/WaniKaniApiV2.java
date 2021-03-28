@@ -204,7 +204,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
 //                .collect(Collectors.joining());
         if(subjectItem.data.character_images == null) return null;
         for(Subjects.SubjectItem.SubjectItemData.CharacterImages ci : subjectItem.data.character_images) {
-            if(ci.metadata.style_name != null && ci.metadata.style_name.equals("original")) {
+            if(ci.metadata != null && ci.metadata.style_name != null && ci.metadata.style_name.equals("original")) {
                 return ci.url;
             }
         }
