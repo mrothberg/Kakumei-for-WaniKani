@@ -7,6 +7,7 @@
         which allowed fast switching between implementations to verify V2 implementation worked correctly
     
 - Created 'apimodels' package for V2 API objects and renamed old package 'wkamodels'
+    - apimodels package are objects that wanikani v2 responses get deserialized into
     - WaniKaniApiV2 creates wkamodel classes using new API so the rest of the application will work the same as before
     - This allowed minimum change to exising code, as the same data types are being returned
 
@@ -16,4 +17,6 @@
 
 - Fix Vocabulary items missing data in ItemDetailsActivity - BaseItem was only retrieving certain data for Kanji items
 
-- Unregister sync receivers in onDestroyView() for the fragments that the DashboardFragment creates. 
+- Unregister sync receivers in onDestroyView() for the fragments that the DashboardFragment creates
+
+- Use https://github.com/Codewaves/Sticky-Header-Grid to create Radical/Kanji/Vocabulary due to deprecation of https://github.com/TonicArtos/StickyGridHeaders

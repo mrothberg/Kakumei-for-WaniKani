@@ -1,3 +1,16 @@
+<p align="center">
+<img src="https://github.com/xiprox/WaniKani-for-Android/raw/master/WaniKani/ic_web.png" height="60px" width="60px"/>
+</p>
+
+<h3><p align="center">Kakumei for Android</p></h3>
+
+<p align="center">
+    <i>A beautiful (unofficial) client app for the awesome kanji learning website wanikani.com</i></br>
+    <i>Supports lessons, reviews, and item (radical, kanji, vocabulary) browsing</i>
+</p>
+
+![](https://cloud.githubusercontent.com/assets/2550945/21590010/1997cdde-d0f8-11e6-8116-3ace674dd77f.png)
+
 
 Continuation of WaniKani for Android - [https://github.com/xiprox/WaniKani-for-Android](https://github.com/xiprox/WaniKani-for-Android)
 
@@ -13,17 +26,6 @@ See [CHANGES.txt](CHANGES.txt) for GPL required list of changes.
 See [TODO.txt](TODO.txt) for list of known issues and planned work.
 
 -----
-
-
-<p align="center">
-<img src="https://github.com/xiprox/WaniKani-for-Android/raw/master/WaniKani/ic_web.png" height="60px" width="60px"/>
-</p>
-
-<h3><p align="center">Kakumei for Android</p></h3>
-
-<p align="center"><i>A beautiful (unofficial) client app for the awesome kanji learning website wanikani.com</i></p>
-
-![](https://cloud.githubusercontent.com/assets/2550945/21590010/1997cdde-d0f8-11e6-8116-3ace674dd77f.png)
 
 ## License
 ```

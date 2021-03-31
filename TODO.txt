@@ -1,21 +1,19 @@
 
 High Priority
+- Notifications support
 - Lessons issues - Blank screen due to wk script crashes
-                 - Bharacter doesn't update when you proceed to a 2nd set of lessons
-- Fix crashing when can't access WaniKani API
+                 - Character sometimes doesn't update when you proceed to a 2nd set of lessons
+- Javadoc/better documentation
+- Investigate WaniKani API error cases (no internet, etc)
 - Use Github Issues/Milestones to track bugs and features
 - Firebase stuff - Crashlytics done, monitor for crashes. Potentially add more custom logging
-- Clean up WaniKaniServiceV2 interface - can get rid of similar endpoints
-- Profile fragment - parse join date nicer
-- Rename android studio project to Kakumei
-- Subscription support - should only show users subject data up to their subbed level
-- Clean up gradle scripts (should also prob bump dependency versions)
+- Clean up gradle scripts (check dependency versions to ensure latest)
 - Support correct back button navigation between main fragments (dashboard, radicals, kanji, vocab...) & add quit confirmation
-- Notifications support
+- ProgressCard issues - card sometimes doesn't display properly
 
 Medium Priority
 - Dark mode
-- Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored, can prob extend from a base class
+- Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored somehow
 - Radical/Kanji/Vocab item RecyclerView fast scrolling
 - Radical/Kanji/Vocab item RecyclerView hover over/long press highlighting
 - Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed
@@ -24,18 +22,17 @@ Medium Priority
 - Existing bug - sometimes the LevelPicker will also select the user's level + 1
 - Reduce number of API requests made When navigating from the Dashboard to the ProgressDetailsActivity (by clicking progress card)
 - Better caching of user - we make too many api calls to get the user's current level (maybe attach user obj to sync intent)
-- Clean up User stuff - made changes before WaniKaniAPIV1Interface created
 - Vacation Mode support
-- Donations View currently just blank, do something with it (remove?)
 
 Low Priority
+- Rename android studio project to Kakumei
 - Google autoformat style/spacing
 - Rate limit requests
 - Caching of subjects - using updatedAfter queries to only get new data
 - Recent Unlocks and Critical Items Views
-- Tests (UT, IT)
 - Java date objects instead of Strings in api models?
 - BaseItem methods - getKana() getOnyomi() getKunyomi() can prob be refactored
+- Subscription support - should only show users subject data up to their subbed level
 
 Other Ideas
 - Timber for logging
