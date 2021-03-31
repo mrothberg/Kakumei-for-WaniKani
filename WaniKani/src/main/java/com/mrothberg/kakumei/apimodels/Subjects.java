@@ -18,7 +18,7 @@ public class Subjects {
             public String slug;
             public List<Readings> readings;
             public List<Meanings> meanings;
-            public List<CharacterImages> character_images;
+            public List<CharacterImage> character_images;
 
             public class Readings {
                 public String type;
@@ -31,7 +31,7 @@ public class Subjects {
                 public boolean primary;
             }
 
-            public class CharacterImages {
+            public class CharacterImage {
                 public String url;
                 public Metadata metadata;
                 public String content_type;

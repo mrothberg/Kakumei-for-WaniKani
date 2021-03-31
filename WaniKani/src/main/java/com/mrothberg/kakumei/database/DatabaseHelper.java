@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.VisibleForTesting;
+
 /**
  * Created by Hikari on 1/5/15.
  */
@@ -23,6 +25,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             mInstance = new DatabaseHelper(ctx.getApplicationContext());
         }
         return mInstance;
+    }
+
+    @VisibleForTesting
+    public static void setInstance(DatabaseHelper instance) {
+        mInstance = instance;
     }
 
     public DatabaseHelper(Context context) {

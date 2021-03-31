@@ -16,6 +16,8 @@ import com.mrothberg.kakumei.R;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
+import com.mrothberg.kakumei.database.DatabaseHelper;
+import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.dialogs.HowToGetKeyDialogFragment;
 import com.mrothberg.kakumei.managers.PrefManager;
 

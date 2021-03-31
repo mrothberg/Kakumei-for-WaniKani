@@ -1,5 +1,8 @@
 package com.mrothberg.kakumei;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
 import com.google.gson.Gson;
 import com.mrothberg.kakumei.apimodels.Assignments;
 import com.mrothberg.kakumei.apimodels.ReviewStatistics;
@@ -10,6 +13,8 @@ import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2BuilderInterface;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2;
+import com.mrothberg.kakumei.database.DatabaseHelper;
+import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.wkamodels.KanjiList;
 
 import org.junit.Before;
@@ -49,6 +54,15 @@ public class WaniKaniAPIV2Tests {
     @Mock
     WaniKaniServiceV2BuilderInterface mockServiceBuilder;
 
+    @Mock
+    Context mockContext;
+
+    @Mock
+    DatabaseHelper mockDatabaseHelper;
+
+    @Mock
+    SQLiteDatabase mockDatabase;
+
     Request mockRequest;
 
     @Before
@@ -57,8 +71,15 @@ public class WaniKaniAPIV2Tests {
 
         mockRequest = new Request.Builder().url("http://example.com").build();
 
+        setupDatabase();
         when(mockServiceBuilder.buildService()).thenReturn(mockAPIService);
         waniKaniAPIV1Interface = new WaniKaniApiV2(mockServiceBuilder);
+    }
+
+    private void setupDatabase() {
+        DatabaseHelper.setInstance(mockDatabaseHelper);
+        when(mockDatabaseHelper.getWritableDatabase()).thenReturn(mockDatabase);
+        DatabaseManager.init(mockContext);
     }
 
     @Test

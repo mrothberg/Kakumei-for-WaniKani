@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -98,11 +99,12 @@ public class ProfileFragment extends Fragment {
         mUsername.setText(user.username);
         mLevel.setText(user.level + "");
         String creationDate = user.started_at;
-        final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        final DateFormat iso8601Parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
         iso8601Parser.setTimeZone(TimeZone.getTimeZone("UTC"));
+        final DateFormat dateFormat = new SimpleDateFormat("MMMM d, y", Locale.US);
         try {
             Date startDate = iso8601Parser.parse(creationDate);
-            creationDate = startDate.toString();
+            creationDate = dateFormat.format(startDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

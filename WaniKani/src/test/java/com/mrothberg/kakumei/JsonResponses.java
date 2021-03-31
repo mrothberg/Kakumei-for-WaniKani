@@ -2,6 +2,7 @@ package com.mrothberg.kakumei;
 
 public class JsonResponses {
 
+    //TODO: These should be stored in files
     public static final String level1KanjiSubjects = "{\n" +
             "    \"object\": \"collection\",\n" +
             "    \"url\": \"https://api.wanikani.com/v2/subjects?levels=1&types=kanji\",\n" +
