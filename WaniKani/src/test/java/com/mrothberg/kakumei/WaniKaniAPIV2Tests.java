@@ -147,7 +147,7 @@ public class WaniKaniAPIV2Tests {
             return null;
         }).when(mockSubjectsCall).enqueue(any(Callback.class));
         CompletableFuture<KanjiList> fut = waniKaniAPIV1Interface.getKanjiList(level);
-
+        //TODO: Verifications
     }
 
     @Test
@@ -184,12 +184,13 @@ public class WaniKaniAPIV2Tests {
 
         CompletableFuture<KanjiList> fut = waniKaniAPIV1Interface.getKanjiList(level);
         KanjiList kanjiList = fut.get();
+        //TODO: Verifications
     }
 
     @Test
     @Ignore
     public void testRetrofitCallFails() {
-        //TODO: use retrofit mocks to test call failure
+        //TODO: Use retrofit mocks library to test call failure scenarios
 //        Call<UserRequest> mockCall = Calls.response();
     }
 }

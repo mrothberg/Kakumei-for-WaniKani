@@ -26,7 +26,6 @@ import com.mrothberg.kakumei.apimodels.ReviewStatistics.ReviewStatistic.ReviewSt
 import com.mrothberg.kakumei.apimodels.Subjects.SubjectItem;
 import com.mrothberg.kakumei.apimodels.Subjects.SubjectItem.SubjectItemData;
 import com.mrothberg.kakumei.apimodels.Subjects.SubjectItem.SubjectItemData.CharacterImage;
-import com.mrothberg.kakumei.apimodels.Subjects.SubjectItem.SubjectItemData.Meanings;
 import com.mrothberg.kakumei.apimodels.SummaryRequest.SummaryData;
 import com.mrothberg.kakumei.apimodels.SummaryRequest.SummaryData.Reviews;
 import com.mrothberg.kakumei.database.DatabaseManager;
@@ -65,7 +64,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
         service.getUser().enqueue(new Callback<UserRequest>() {
             @Override
             public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
-                if(!response.isSuccessful() || response.body() == null) {
+                if (!response.isSuccessful() || response.body() == null) {
                     onFailure(call, new Throwable("Failure retrieving user information from api"));
                     return;
                 }
@@ -129,12 +128,11 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
         Map<Integer, AssignmentData> subjectToAssignmentDataMap = new HashMap<>();
         Map<Integer, ReviewStatisticData> subjectToReviewStatsMap = new HashMap<>();
 
-        //TODO rework with streams and maybe clean this up
-        for(Assignment assignment : assignments.data) {
+        for (Assignment assignment : assignments.data) {
             subjectToAssignmentDataMap.put(assignment.data.subject_id, assignment.data);
         }
 
-        for(ReviewStatistic reviewStatData : reviewStatistics.data) {
+        for (ReviewStatistic reviewStatData : reviewStatistics.data) {
             //TODO: account for getting no review statistics (null ref)
             subjectToReviewStatsMap.put(reviewStatData.data.subject_id, reviewStatData.data);
         }
@@ -146,9 +144,8 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
             ReviewStatisticData reviewStatData = subjectToReviewStatsMap.get(subjectItem.id);
 
             String character = subjectItemData.characters;
-            //TODO: all these methods should just pass in what they need instead of the entire subjectItem
-            String onyomi = getKanjiReading(subjectItem, "onyomi");
-            String kunyomi = getKanjiReading(subjectItem, "kunyomi");
+            String onyomi = getKanjiReadings(subjectItem, "onyomi");
+            String kunyomi = getKanjiReadings(subjectItem, "kunyomi");
             String meaning = getPrimaryMeaning(subjectItem);
             String importantReading = getPrimaryReadingType(subjectItem);
             String image = getOriginalImageUrl(subjectItem);
@@ -159,15 +156,15 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
             long nextAvailableDate = 0;
             String srs = "";
             long unlockDate = 0;
-            if(assignmentData != null) {
+            if (assignmentData != null) {
                 burned = assignmentData.burned_at != null;
                 srs = getSrsStageName(assignmentData.srs_stage);
                 try {
                     unlockDate = iso8601Parser.parse(assignmentData.unlocked_at).getTime() / 1000;
-                    if(assignmentData.available_at != null) {
+                    if (assignmentData.available_at != null) {
                         nextAvailableDate = iso8601Parser.parse(assignmentData.available_at).getTime() / 1000;
                     }
-                    if(assignmentData.burned_at != null) {
+                    if (assignmentData.burned_at != null) {
                         burned = true;
                         burnedDate = iso8601Parser.parse(assignmentData.burned_at).getTime() / 1000;
                     } else burned = false;
@@ -207,15 +204,9 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
     }
 
     private String getOriginalImageUrl(Subjects.SubjectItem subjectItem) {
-        //TODO: fix the stream NOTE: null is expected if the image doesn't exist
-//        if(subjectItem.data.character_images == null) return "";
-//        return subjectItem.data.character_images.stream()
-//                .filter(characterImages -> characterImages.metadata.style_name != null && characterImages.metadata.style_name.equals("orignal"))
-//                .map(characterImages -> characterImages.url)
-//                .collect(Collectors.joining());
-        if(subjectItem.data.character_images == null) return null;
-        for(CharacterImage ci : subjectItem.data.character_images) {
-            if(ci.metadata != null && ci.metadata.style_name != null && ci.metadata.style_name.equals("original")) {
+        if (subjectItem.data.character_images == null) return null;
+        for (CharacterImage ci : subjectItem.data.character_images) {
+            if (ci.metadata != null && ci.metadata.style_name != null && ci.metadata.style_name.equals("original")) {
                 return ci.url;
             }
         }
@@ -223,7 +214,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
     }
 
     private String getPrimaryReadingType(SubjectItem subjectItem) {
-        if(subjectItem.data.readings == null) return "";
+        if (subjectItem.data.readings == null) return "";
         return subjectItem.data.readings.stream()
                 .filter(readings -> readings.primary)
                 .map(readings -> readings.type)
@@ -231,7 +222,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
     }
 
     private String getPrimaryReading(SubjectItem subjectItem) {
-        if(subjectItem.data.readings == null) return "";
+        if (subjectItem.data.readings == null) return "";
         return subjectItem.data.readings.stream()
                 .filter(readings -> readings.primary)
                 .map(readings -> readings.reading)
@@ -239,16 +230,15 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
     }
 
     private String getPrimaryMeaning(SubjectItem subjectItem) {
-        if(subjectItem.data.meanings == null) return "";
+        if (subjectItem.data.meanings == null) return "";
         return subjectItem.data.meanings.stream()
                 .filter(meanings -> meanings.primary)
                 .map(meanings -> meanings.meaning)
                 .collect(Collectors.joining());
     }
 
-    //TODO better name/maybe pass in readings array instead
-    private String getKanjiReading(SubjectItem subjectItem, String reading_type) {
-        if(subjectItem.data.readings == null) return "";
+    private String getKanjiReadings(SubjectItem subjectItem, String reading_type) {
+        if (subjectItem.data.readings == null) return "";
         return subjectItem.data.readings.stream()
                 .filter(readings -> readings.type != null && readings.type.equals(reading_type))
                 .map(readings -> readings.reading)
@@ -260,7 +250,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
         service.getSubjectItems(level, type).enqueue(new Callback<Subjects>() {
             @Override
             public void onResponse(Call<Subjects> call, Response<Subjects> response) {
-                if(!response.isSuccessful() || response.body() == null) {
+                if (!response.isSuccessful() || response.body() == null) {
                     onFailure(call, new Throwable("Failure retrieving subjects"));
                     return;
                 }
@@ -300,7 +290,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
         service.getReviewStatistics(subjectIDList).enqueue(new Callback<ReviewStatistics>() {
             @Override
             public void onResponse(Call<ReviewStatistics> call, Response<ReviewStatistics> response) {
-                if(!response.isSuccessful() || response.body() == null) {
+                if (!response.isSuccessful() || response.body() == null) {
                     onFailure(call, new Throwable("Failure retrieving review statistics"));
                     return;
                 }
@@ -335,7 +325,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
                     int reviewsAvailableNextDayCount = reviews.stream().skip(2).map(review -> review.subject_ids.size()).reduce(0, Integer::sum);
 
                     long date = 0;
-                    if(data.next_reviews_at != null) {
+                    if (data.next_reviews_at != null) {
                         date = iso8601Parser.parse(data.next_reviews_at).getTime() / 1000;
                     }
 
@@ -407,7 +397,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
             AssignmentData currentAssignment = assignment.data;
 
             //TODO: WaniKani is getting rid of srs stage names so reevaluate this
-            //TODO maybe think of a cleaner way to do this
+            //TODO Think of a cleaner way to do this
             int srsStage = currentAssignment.srs_stage;
             if (srsStage >= 1 && srsStage <= 4) {
                 //apprentice
@@ -495,7 +485,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
                 burnedVocabulary);
     }
 
-    //TODO: define these as constants somewhere - they're currently used in many diff places
+    //TODO: Define these as constants somewhere - they're currently used in many diff places
     private String getSrsStageName(int srsStage) {
         if (srsStage >= 1 && srsStage <= 4) {
             return "apprentice";
@@ -520,7 +510,7 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
             return CompletableFuture.completedFuture(partialResultCopy);
         }
 
-        //TODO reevaluate this parsing logic
+        //TODO Reevaluate this parsing logic
         int nextPageStartId = Integer.parseInt(url.substring(url.indexOf("=") + 1));
         CompletableFuture<Assignments> nextAssignmentsPage = new CompletableFuture<>();
         service.getNextAssignmentsPage(nextPageStartId).enqueue(new Callback<Assignments>() {
@@ -538,7 +528,6 @@ public class WaniKaniApiV2 implements WaniKaniAPIV1Interface {
                 nextAssignmentsPage.completeExceptionally(t);
             }
         });
-
         return nextAssignmentsPage.thenCompose(nextAssignmentPage -> getCompleteAssignmentList(nextAssignmentPage, partialResultCopy));
     }
 
