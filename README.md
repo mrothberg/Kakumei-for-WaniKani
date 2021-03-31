@@ -11,6 +11,12 @@
 
 ![](https://cloud.githubusercontent.com/assets/2550945/21590010/1997cdde-d0f8-11e6-8116-3ace674dd77f.png)
 
+Available on the Google Play Store:</br>
+<a href="https://play.google.com/store/apps/details?id=com.mrothberg.kakumei">
+    <img alt="Get it on Google Play"
+        height="80"
+        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
+</a>
 
 Continuation of WaniKani for Android - [https://github.com/xiprox/WaniKani-for-Android](https://github.com/xiprox/WaniKani-for-Android)
 
