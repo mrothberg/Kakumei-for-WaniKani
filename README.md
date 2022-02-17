@@ -22,7 +22,7 @@ Continuation of WaniKani for Android - [https://github.com/xiprox/WaniKani-for-A
 
 Updated to work with WaniKani API V2.
 
-Important things currently broken/missing from orignal project:
+Important things currently broken/missing from original project:
 - Viewing of Recent Unlocks and Critical Items on Dashboard
 - Notifications
 - Vacation mode support

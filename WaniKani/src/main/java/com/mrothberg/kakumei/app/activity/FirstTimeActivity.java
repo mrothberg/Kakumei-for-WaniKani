@@ -79,8 +79,8 @@ public class FirstTimeActivity extends AppCompatActivity {
                             Toast.makeText(context, R.string.error_invalid_api_key, Toast.LENGTH_SHORT).show();
                             return;
                         }
-
                         userRequest.data.save();
+                        PrefManager.setFirstLaunch(false);
                         startActivity(new Intent(context, MainActivity.class));
                         finish();
                     });
