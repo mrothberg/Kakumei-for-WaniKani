@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mrothberg.kakumei">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,6 +24,7 @@
             android:resource="@color/apptheme_main" />
 
         <activity
+            android:exported="true"
             android:name=".app.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme_NavigationDrawerActivity">
@@ -145,7 +145,10 @@
 
         <receiver android:name=".content.notification.NotificationPublisher" />
 
-        <receiver android:name=".content.notification.NotificationReceiver">
+        <receiver
+            android:name=".content.notification.NotificationReceiver"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
