@@ -81,6 +81,7 @@ public class FirstTimeActivity extends AppCompatActivity {
                         }
 
                         userRequest.data.save();
+                        PrefManager.setFirstLaunch(false);
                         startActivity(new Intent(context, MainActivity.class));
                         finish();
                     });
