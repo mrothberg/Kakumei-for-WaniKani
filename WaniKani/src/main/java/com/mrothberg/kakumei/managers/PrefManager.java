@@ -53,6 +53,9 @@ public abstract class PrefManager {
     private static final String PREF_ENABLE_REMINDER_NOTIFICATION = "pref_enable_reminder_notification";
     private static final String PREF_REMINDER_NOTIFICATION_INTERVAL = "pref_reminder_notification_interval";
 
+    private static final String PREF_REVIEWS_AT_LAST_SYNC = "pref_reviews_at_last_sync";
+
+
     private static SharedPreferences prefs;
     private static SharedPreferences reviewsPrefs;
 
@@ -354,6 +357,14 @@ public abstract class PrefManager {
 
     public static void setReminderNotificationInterval(long milliseconds) {
         prefs.edit().putLong(PREF_REMINDER_NOTIFICATION_INTERVAL, milliseconds).commit();
+    }
+
+    public static int getReviewsAtLastSync(){
+        return prefs.getInt(PREF_REVIEWS_AT_LAST_SYNC, 0);
+    }
+
+    public static void setReviewsAtLastSync(int count){
+        prefs.edit().putInt(PREF_REVIEWS_AT_LAST_SYNC, count).commit();
     }
 
     public static void logout(Context context) {
