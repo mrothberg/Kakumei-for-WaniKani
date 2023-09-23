@@ -63,7 +63,7 @@ public class NotificationWorker extends Worker {
                 .setSmallIcon(R.drawable.ic_burned)
                 .setContentTitle("Time to review!")
                 .setContentText(numReviews + " reviews in queue")
-                .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(Intent.ACTION_MAIN), PendingIntent.FLAG_IMMUTABLE));
+                .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_IMMUTABLE));
 
         NotificationManager mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
