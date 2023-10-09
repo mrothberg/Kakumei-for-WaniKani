@@ -275,8 +275,7 @@
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/pref_category_notifications"
-                    android:textColor="@color/apptheme_main"
-                    android:visibility="gone"/>
+                    android:textColor="@color/apptheme_main"/>
 
                 <RelativeLayout
                     android:id="@+id/settings_notifications_enable_notifications"
@@ -284,30 +283,26 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_neutral"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:visibility="gone">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="62dp"
                         android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pref_title_notifications"
-                            android:textSize="16sp"
-                            android:visibility="gone"/>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pref_summary_notifications"
-                            android:textColor="@color/text_gray"
-                            android:visibility="gone"/>
+                            android:textColor="@color/text_gray"/>
                     </LinearLayout>
 
                     <CheckBox
@@ -317,8 +312,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:checked="true"
-                        android:visibility="gone"/>
+                        android:checked="true"/>
                 </RelativeLayout>
 
 <!--                <View-->
@@ -332,30 +326,26 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_neutral"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:visibility="gone">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="62dp"
                         android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pref_title_reminder_notification"
-                            android:textSize="16sp"
-                            android:visibility="gone"/>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pref_summary_reminder_notification"
-                            android:textColor="@color/text_gray"
-                            android:visibility="gone"/>
+                            android:textColor="@color/text_gray"/>
                     </LinearLayout>
 
                     <CheckBox
@@ -365,8 +355,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:checked="true"
-                        android:visibility="gone"/>
+                        android:checked="true"/>
                 </RelativeLayout>
 
 <!--                <View-->
@@ -381,23 +370,20 @@
                     android:background="@drawable/selector_background_neutral"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:visibility="gone">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/pref_title_reminder_notification_interval"
-                        android:textSize="16sp"
-                        android:visibility="gone"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/settings_notifications_reminder_notification_interval_summary"
                         android:text="@string/pref_summary_reminder_notification_interval"
-                        android:textColor="@color/text_gray"
-                        android:visibility="gone"/>
+                        android:textColor="@color/text_gray"/>
                 </LinearLayout>
 <!--             TODO: END support notifications-->
 
