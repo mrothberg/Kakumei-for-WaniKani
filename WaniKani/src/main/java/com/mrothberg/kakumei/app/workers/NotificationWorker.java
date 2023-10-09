@@ -12,22 +12,34 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.app.App;
 import com.mrothberg.kakumei.app.activity.MainActivity;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.StudyQueue;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class NotificationWorker extends Worker {
 
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_ID = "default";
+
+    private final static String WORKER_NAME = "ReviewNotificationService";
+
     public NotificationWorker(
             @NonNull Context appContext,
             @NonNull WorkerParameters workerParams
@@ -42,7 +54,7 @@ public class NotificationWorker extends Worker {
             StudyQueue queue = waniKaniApi.getStudyQueue().get();
             int reviews = queue.reviews_available;
             int prevReview = PrefManager.getReviewsAtLastSync();
-            if(reviews != 0 && reviews != prevReview) {
+            if(reviews != 0 && (PrefManager.reminderNotificationEnabled() || reviews != prevReview)) {
                 sendNotification(reviews);
             }
             PrefManager.setReviewsAtLastSync(reviews);
@@ -80,5 +92,16 @@ public class NotificationWorker extends Worker {
         }
         assert mNotificationManager != null;
         mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    public static void startNotificationService(long interval) {
+        LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime targetTime = currentTime.plusHours(1).truncatedTo(ChronoUnit.HOURS);
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, interval, TimeUnit.MILLISECONDS, 5, TimeUnit.MINUTES).setInitialDelay(Duration.between(currentTime, targetTime)).build();
+        WorkManager.getInstance(App.getContext()).enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.UPDATE, workRequest);
+    }
+
+    public static void stopNotificationService(){
+        WorkManager.getInstance(App.getContext()).cancelUniqueWork(WORKER_NAME);
     }
 }

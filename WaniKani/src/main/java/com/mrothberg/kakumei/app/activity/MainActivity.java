@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity
             waniKaniAPI.getUser().whenComplete((userRequest, throwable) -> {
                 Log.d(TAG, "Stored user in database");
             });
-            startNotificationService();
         }
     }
 
@@ -224,14 +223,5 @@ public class MainActivity extends AppCompatActivity
         ));
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroadcastIntents.NOTIFICATION()));
-    }
-
-    private void startNotificationService(){
-
-        LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
-        LocalDateTime targetTime = currentTime.plusHours(1).truncatedTo(ChronoUnit.HOURS);
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 1, TimeUnit.HOURS, 5, TimeUnit.MINUTES).setInitialDelay(Duration.between(currentTime, targetTime)).build();
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork("ReviewNotificationService", ExistingPeriodicWorkPolicy.UPDATE, workRequest);
-
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.app.workers.NotificationWorker;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
@@ -82,40 +83,10 @@ public class FirstTimeActivity extends AppCompatActivity {
 
                         userRequest.data.save();
                         PrefManager.setFirstLaunch(false);
+                        NotificationWorker.startNotificationService(3600000);
                         startActivity(new Intent(context, MainActivity.class));
                         finish();
                     });
-
-                    //TODO: notifications
-//                    WaniKaniApi.getUser(mApiKey.getText().toString()).enqueue(new ThroughDbCallback<Request<User>, User>() {
-//                        @Override
-//                        public void onResponse(Call<Request<User>> call, Response<Request<User>> response) {
-//                            super.onResponse(call, response);
-//                            if (response.isSuccessful() && response.body().user_information != null) {
-//                                PrefManager.setApiKey(mApiKey.getText().toString());
-//                                PrefManager.setFirstLaunch(false);
-//                                WaniKaniApi.init();
-//                                startActivity(new Intent(context, MainActivity.class));
-//
-//                                // Set an alarm for notifications for the first time
-//                                new NotificationScheduler(context).schedule();
-//
-//                                finish();
-//                            } else {
-//                                onFailure(call, null);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Request<User>> call, Throwable t) {
-//                            super.onFailure(call, t);
-//
-//                            if (mViewSwitcher.getDisplayedChild() == 1) {
-//                                mViewSwitcher.showPrevious();
-//                            }
-//                            Toast.makeText(context, R.string.error_invalid_api_key, Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
                 }
             }
         });
