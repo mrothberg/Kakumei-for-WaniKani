@@ -2,10 +2,6 @@ package com.mrothberg.kakumei.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,22 +9,27 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.mrothberg.kakumei.R;
+import com.mrothberg.kakumei.apimodels.UserData;
 import com.mrothberg.kakumei.app.fragment.DashboardFragment;
 import com.mrothberg.kakumei.app.fragment.card.ProgressCard;
 import com.mrothberg.kakumei.app.fragment.card.ProgressCardNoTitle;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.database.DatabaseManager;
+import com.mrothberg.kakumei.widget.adapter.RemainingKanjiAdapter;
+import com.mrothberg.kakumei.widget.adapter.RemainingRadicalsAdapter;
 import com.mrothberg.kakumei.wkamodels.BaseItem;
 import com.mrothberg.kakumei.wkamodels.ItemsList;
 import com.mrothberg.kakumei.wkamodels.KanjiList;
 import com.mrothberg.kakumei.wkamodels.RadicalsList;
-import com.mrothberg.kakumei.apimodels.UserData;
-import com.mrothberg.kakumei.widget.adapter.RemainingKanjiAdapter;
-import com.mrothberg.kakumei.widget.adapter.RemainingRadicalsAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hikari on 9/18/14.

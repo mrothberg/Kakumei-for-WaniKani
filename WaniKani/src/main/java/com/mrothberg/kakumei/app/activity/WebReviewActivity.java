@@ -13,11 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,7 +29,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import com.mrothberg.kakumei.ExternalFramePlacer;
 import com.mrothberg.kakumei.FileDownloadTask;
@@ -45,6 +43,8 @@ import com.mrothberg.kakumei.R;
 import com.mrothberg.kakumei.TimerThreadsReaper;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.userscripts.PartOfSpeech;
+
+import java.io.File;
 
 /*
  *  Copyright (c) 2013 Alberto Cuda
