@@ -1,2 +1,0 @@
-include ':WaniKani'
-rootProject.name = "WaniKani"
