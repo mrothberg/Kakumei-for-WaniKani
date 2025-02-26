@@ -17,8 +17,7 @@ import java.io.IOException;
 import com.mrothberg.kakumei.ExternalFramePlacer;
 import com.mrothberg.kakumei.app.activity.SWWebReviewActivity;
 import com.mrothberg.kakumei.app.activity.WebReviewActivity;
-import com.mrothberg.kakumei.content.notification.NotificationPublisher;
-import com.mrothberg.kakumei.content.notification.NotificationScheduler;
+import com.mrothberg.kakumei.app.workers.NotificationWorker;
 
 @SuppressLint("CommitPrefEdits")
 public abstract class PrefManager {
@@ -52,6 +51,9 @@ public abstract class PrefManager {
     private static final String PREF_SHOW_NOTIFICATIONS = "pref_show_notifications";
     private static final String PREF_ENABLE_REMINDER_NOTIFICATION = "pref_enable_reminder_notification";
     private static final String PREF_REMINDER_NOTIFICATION_INTERVAL = "pref_reminder_notification_interval";
+
+    private static final String PREF_REVIEWS_AT_LAST_SYNC = "pref_reviews_at_last_sync";
+
 
     private static SharedPreferences prefs;
     private static SharedPreferences reviewsPrefs;
@@ -329,10 +331,12 @@ public abstract class PrefManager {
         prefs.edit().putBoolean(PREF_REVIEWS_LESSONS_FULLSCREEN, value).commit();
     }
 
-    public static void setNotificationsEnabled(Context context, boolean value) {
+    public static void setNotificationsEnabled(boolean value) {
         prefs.edit().putBoolean(PREF_SHOW_NOTIFICATIONS, value).commit();
-        if (!value) {
-            new NotificationScheduler(context).cancelNotifications();
+        if (!(value || reminderNotificationEnabled())) {
+            NotificationWorker.stopNotificationService();
+        }else{
+            NotificationWorker.startNotificationService(getReminderNotificationInterval());
         }
     }
 
@@ -346,14 +350,28 @@ public abstract class PrefManager {
 
     public static void setReminderNotificationEnabled(boolean value) {
         prefs.edit().putBoolean(PREF_ENABLE_REMINDER_NOTIFICATION, value).commit();
+        if (!(value || notificationsEnabled())) {
+            NotificationWorker.stopNotificationService();
+        }else{
+            NotificationWorker.startNotificationService(getReminderNotificationInterval());
+        }
     }
 
     public static long getReminderNotificationInterval() {
-        return prefs.getLong(PREF_REMINDER_NOTIFICATION_INTERVAL, 7200000); // 2 hours by default
+        return prefs.getLong(PREF_REMINDER_NOTIFICATION_INTERVAL, 3600000); // 1 hour by default
     }
 
     public static void setReminderNotificationInterval(long milliseconds) {
         prefs.edit().putLong(PREF_REMINDER_NOTIFICATION_INTERVAL, milliseconds).commit();
+        NotificationWorker.startNotificationService(milliseconds);
+    }
+
+    public static int getReviewsAtLastSync(){
+        return prefs.getInt(PREF_REVIEWS_AT_LAST_SYNC, 0);
+    }
+
+    public static void setReviewsAtLastSync(int count){
+        prefs.edit().putInt(PREF_REVIEWS_AT_LAST_SYNC, count).commit();
     }
 
     public static void logout(Context context) {
@@ -374,16 +392,7 @@ public abstract class PrefManager {
             e.printStackTrace();
         }
 
-        // Cancel the notification alarm...
-        Intent notificationIntent = new Intent(context, NotificationPublisher.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                NotificationPublisher.REQUEST_CODE,
-                notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
+        NotificationWorker.stopNotificationService();
     }
 
     public enum Keyboard {

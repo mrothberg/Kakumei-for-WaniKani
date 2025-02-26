@@ -1,8 +1,15 @@
 package com.mrothberg.kakumei.app.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -10,6 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +33,7 @@ import com.mrothberg.kakumei.app.fragment.NavigationDrawerFragment;
 import com.mrothberg.kakumei.app.fragment.RadicalsFragment;
 import com.mrothberg.kakumei.app.fragment.VocabularyFragment;
 import com.mrothberg.kakumei.app.fragment.card.AvailableCard;
+import com.mrothberg.kakumei.app.workers.NotificationWorker;
 import com.mrothberg.kakumei.client.WaniKaniAPIV1Interface;
 import com.mrothberg.kakumei.client.WaniKaniApiV2;
 import com.mrothberg.kakumei.client.WaniKaniServiceV2Builder;
@@ -29,6 +41,13 @@ import com.mrothberg.kakumei.content.receiver.BroadcastIntents;
 import com.mrothberg.kakumei.database.DatabaseManager;
 import com.mrothberg.kakumei.managers.PrefManager;
 import com.mrothberg.kakumei.wkamodels.Notification;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {

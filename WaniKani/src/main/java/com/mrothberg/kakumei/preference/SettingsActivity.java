@@ -153,7 +153,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mNotificationsEnableCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PrefManager.setNotificationsEnabled(SettingsActivity.this, isChecked);
+                PrefManager.setNotificationsEnabled(isChecked);
             }
         });
 
