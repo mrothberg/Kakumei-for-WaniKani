@@ -1,0 +1,35 @@
+*.iml
+.gradle
+/local.properties
+
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# IDE - IntelliJ IDEA #
+.idea/*
+# keep only workspace.xml and tasks.xml
+!.idea/workspace.xml
+!.idea/tasks.xml
+!.idea/gradle.xml
+!.idea/compiler.xml
+!.idea/vcs.xml
+!.idea/kotlinc.xml
+!.idea/encodings.xml
+!.idea/runConfigurations/
+!.idea/deploymentTargetDropDown.xml
+!.idea/dataSources.xml
+!.idea/dataSources.local.xml
+!.idea/dataSources.ids
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/dictionaries/
+!.idea/shelf/
+
+
+google-services.json
+keystore-upload.jks
+Release
+

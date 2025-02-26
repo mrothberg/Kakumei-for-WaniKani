@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.mrothberg.kakumei.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/details_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="@dimen/action_bar_height"
+        android:scrollbarStyle="outsideOverlay">
+
+        <ViewFlipper
+            android:id="@+id/details_view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/details_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/item_card"
+                    app:cardUseCompatPadding="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?colorPrimary">
+
+                    <LinearLayout
+                        android:id="@+id/details_title_meaning_level"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:gravity="center|start"
+                                android:maxLines="1"
+                                android:textColor="@android:color/white"
+                                android:textSize="32sp"
+                                tools:text="Item Title" />
+
+                            <ImageView
+                                android:id="@+id/title_image"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center_vertical"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.6"
+                            android:text="@string/card_title_details_meaning"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/details_meaning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            tools:text="Item Meaning" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.6"
+                            android:text="@string/card_content_progress_level"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/details_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_alternative_meanings_and_user_synonyms_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/divider_16dp"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:showDividers="middle">
+
+                        <LinearLayout
+                            android:id="@+id/details_alternative_meanings_holder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/details_title_alternative_meanings"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_title_details_alternative_meanings"
+                                android:textColor="?colorPrimary"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/details_alternative_meanings"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_gray"
+                                tools:text="Something, Something else, Something totally else" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/details_user_synonyms_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/details_title_user_synonyms"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_title_details_user_synonyms"
+                                android:textColor="?colorPrimary"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/details_user_synonyms"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/text_gray"
+                                tools:text="Something, Something else, Something totally else" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_readings_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:divider="@drawable/divider_16dp"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:showDividers="middle">
+
+                        <LinearLayout
+                            android:id="@+id/details_readings_reading_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/details_title_reading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_title_details_reading"
+                                android:textColor="?colorPrimary"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/details_reading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/text_gray"
+                                android:textSize="14sp"
+                                tools:text="Something" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/details_readings_onyomi_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_title_details_reading_onyomi"
+                                android:textColor="@color/text_gray"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/details_readings_onyomi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/text_gray"
+                                android:textSize="14sp"
+                                tools:text="Something" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/details_readings_kunyomi_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_title_details_reading_kunyomi"
+                                android:textColor="@color/text_gray"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/details_readings_kunyomi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/text_gray"
+                                android:textSize="14sp"
+                                tools:text="なか" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_reading_note_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/details_title_reading_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_title_details_reading_note"
+                            android:textColor="?colorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/details_reading_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/text_gray"
+                            tools:text="Something" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_meaning_note_card"
+                    android:layout_width="match_parent"
+                    app:cardUseCompatPadding="true"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/details_title_meaning_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_title_details_meaning_note"
+                            android:textColor="?colorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/details_meaning_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/text_gray"
+                            tools:text="Something" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_progress_card"
+                    android:layout_width="match_parent"
+                    app:cardUseCompatPadding="true"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:background="@android:color/white"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/details_progress_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_title_details_progress"
+                            android:textColor="?colorPrimary"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:id="@+id/details_progress_locked"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp"
+                            android:visibility="gone"
+                            tools:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_marginBottom="8dp"
+                                android:src="@drawable/ic_lock_black_36dp"
+                                android:tint="@color/text_gray" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_content_details_progress_locked"
+                                android:textColor="@color/text_gray"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_content_details_progress_or_not_learned"
+                                android:textColor="@color/text_gray" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/details_progress_burned"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp"
+                            android:visibility="gone"
+                            tools:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="74dp"
+                                android:layout_height="74dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/burned"
+                                android:tint="?colorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="16dp"
+                                android:text="@string/card_content_details_burned"
+                                android:textColor="@color/text_gray"
+                                android:textSize="18sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/card_content_details_progress_on"
+                                    android:textColor="@color/text_gray_light"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" "
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_burned_date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray_light"
+                                    android:textSize="14sp"
+                                    tools:text="27 January 2015" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/details_progress_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="SRS"
+                                    android:textColor="@color/text_gray" />
+
+                                <ImageView
+                                    android:id="@+id/details_progress_srs_logo"
+                                    android:layout_width="36dp"
+                                    android:layout_height="36dp"
+                                    android:layout_marginRight="12dp"
+                                    tools:src="@drawable/apprentice" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_srs_level"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="@string/srs_title_apprentice" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_unlocked_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_unlocked_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_unlocked"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="12 January 2015" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_next_available_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_next_available_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <com.mrothberg.kakumei.widget.RelativeTimeTextView
+                                    android:id="@+id/details_progress_next_available"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="30 December 2015" />
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/details_progress_meaning_correct_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="12dp"
+                                android:paddingTop="16dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_meaning_correct_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_correct_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/details_progress_meaning_correct_percentage_sign"
+                                    android:maxEms="3"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="73" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_correct_percentage_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="%"
+                                    android:textColor="@color/text_gray" />
+
+                                <ProgressBar
+                                    android:id="@+id/details_progress_meaning_correct_progress"
+                                    style="@style/ProgressBarCorrect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/details_progress_meaning_correct_percentage"
+                                    android:layout_marginTop="8dp"
+                                    tools:progress="73" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/details_progress_meaning_incorrect_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="16dp"
+                                android:paddingTop="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_meaning_incorrect_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_incorrect_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/details_progress_meaning_incorrect_percentage_sign"
+                                    android:maxEms="3"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="27" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_incorrect_percentage_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="%"
+                                    android:textColor="@color/text_gray" />
+
+                                <ProgressBar
+                                    android:id="@+id/details_progress_meaning_incorrect_progress"
+                                    style="@style/ProgressBarIncorrect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/details_progress_meaning_incorrect_percentage"
+                                    android:layout_marginTop="8dp"
+                                    tools:progress="27" />
+
+
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_meaning_max_streak_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_meaning_max_streak_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_max_streak"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="3" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_meaning_current_streak_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_meaning_current_streak_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_meaning_current_streak"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="1" />
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/details_progress_reading_correct_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="12dp"
+                                android:paddingTop="16dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_reading_correct_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_correct_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/details_progress_reading_correct_percentage_sign"
+                                    android:maxEms="3"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="67" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_correct_percentage_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="%"
+                                    android:textColor="@color/text_gray" />
+
+                                <ProgressBar
+                                    android:id="@+id/details_progress_reading_correct_progress"
+                                    style="@style/ProgressBarCorrect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/details_progress_reading_correct_percentage"
+                                    android:layout_marginTop="8dp"
+                                    android:progress="67" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/details_progress_reading_incorrect_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="16dp"
+                                android:paddingTop="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_reading_incorrect_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_incorrect_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/details_progress_reading_incorrect_percentage_sign"
+                                    android:maxEms="3"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="37" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_incorrect_percentage_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="%"
+                                    android:textColor="@color/text_gray" />
+
+                                <ProgressBar
+                                    android:id="@+id/details_progress_reading_incorrect_progress"
+                                    style="@style/ProgressBarIncorrect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/details_progress_reading_incorrect_percentage"
+                                    android:layout_marginTop="8dp"
+                                    tools:progress="37" />
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_reading_max_streak_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_reading_max_streak_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_max_streak"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="2" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/details_progress_reading_current_streak_holder"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/card_content_details_progress_reading_current_streak_allcaps"
+                                    android:textColor="@color/text_gray" />
+
+                                <TextView
+                                    android:id="@+id/details_progress_reading_current_streak"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/text_gray"
+                                    tools:text="3" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="64dp" />
+        </ViewFlipper>
+    </com.mrothberg.kakumei.widget.ObservableScrollView>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Light" />
+</FrameLayout>

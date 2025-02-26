@@ -1,0 +1,189 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 6
+def versionBuild = Integer.parseInt(System.getenv('TRAVIS_BUILD_NUMBER') ?: "1")
+
+def keystoreAlias = System.getenv('keystoreAlias') ?: project.property("wanikani.signing.upload.alias")
+def keystorePassword = System.getenv('keystorePassword') ?: project.property("wanikani.signing.upload.password")
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        google()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.8.1'
+        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
+    }
+}
+
+android {
+    compileSdkVersion 33
+
+//    playAccountConfigs {
+//        defaultAccountConfig {
+//            jsonFile = file('../xip-key.json')
+//        }
+//    }
+
+    defaultConfig {
+        applicationId "com.mrothberg.kakumei"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+//        playAccountConfig = playAccountConfigs.defaultAccountConfig
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../keystore-upload.jks")
+            storePassword keystorePassword
+            keyAlias keystoreAlias
+            keyPassword keystorePassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt']
+        }
+    }
+
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+//    sourceSets {
+//        main {
+////            manifest.srcFile 'AndroidManifest.xml'
+//            java.srcDirs = ['src']
+//            resources.srcDirs = ['src']
+//            aidl.srcDirs = ['src']
+//            renderscript.srcDirs = ['src']
+//            res.srcDirs = ['res']
+//            assets.srcDirs = ['assets']   \
+//
+//        }
+//
+//        androidTest.setRoot('tests')
+//
+//        debug.setRoot('build-types/debug')
+//        release.setRoot('build-types/release')
+//    }
+
+    repositories {
+        maven {
+            url 'https://github.com/toxbee/mvn-repo/raw/master/maven-deploy'
+        }
+        flatDir {
+            dirs 'libs'
+        }
+        jcenter()
+        maven { url 'https://maven.google.com' }
+    }
+
+    dependencies {
+        // compile fileTree(dir: 'libs', include: '*.jar')
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'androidx.cardview:cardview:1.0.0'
+
+        implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+        implementation "com.squareup.retrofit2:converter-gson:2.1.0"
+        implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+        implementation 'com.squareup.picasso:picasso:2.5.2'
+//        implementation 'com.google.firebase:firebase-core:16.0.9'
+        implementation 'com.google.firebase:firebase-messaging:21.0.1'
+//        implementation 'com.google.firebase:firebase-crash:16.2.1'
+
+        implementation 'org.solovyev.android:checkout:1.2.1'
+
+        implementation files('libs/commons-io-2.4.jar')
+        implementation files('libs/commons-lang3-3.3.1.jar')
+
+        implementation(files("libs/stickyheadergrid-release.aar"))
+
+        implementation 'net.sourceforge.streamsupport:android-retrofuture:1.7.2'
+
+        implementation "androidx.work:work-runtime-ktx:2.8.1"
+
+        testImplementation "org.mockito:mockito-core:3.8.0"
+        testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
+
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    namespace 'com.mrothberg.kakumei'
+}
+
+dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.work:work-runtime:2.8.1'
+    testImplementation 'junit:junit:4.13.1'
+}
+
+//play {
+//    track = 'alpha'
+//}
+
+// TODO: google services & Firebase
+//apply plugin: 'com.google.gms.google-services'
+
+
+//android {
+//    compileSdkVersion 29
+//
+//    defaultConfig {
+//        applicationId "tr.xip.wanikani"
+//        minSdkVersion 16
+//        targetSdkVersion 29
+//        versionCode 1
+//        versionName "1.0"
+//
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//}
+//
+//dependencies {
+//    implementation fileTree(dir: "libs", include: ["*.jar"])
+//    implementation 'androidx.appcompat:appcompat:1.1.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//
+//}

@@ -1,0 +1,42 @@
+
+High Priority
+- Notifications support
+- Lessons issues - Blank screen due to wk script crashes
+                 - Character sometimes doesn't update when you proceed to a 2nd set of lessons
+- Javadoc/better documentation
+- Investigate WaniKani API error cases (no internet, etc)
+- Use Github Issues/Milestones to track bugs and features
+- Firebase stuff - Crashlytics done, monitor for crashes. Potentially add more custom logging
+- Clean up gradle scripts (check dependency versions to ensure latest)
+- Support correct back button navigation between main fragments (dashboard, radicals, kanji, vocab...) & add quit confirmation
+- ProgressCard issues - card sometimes doesn't display properly
+
+Medium Priority
+- Dark mode
+- Radical/Kanji/Vocab Adapters have a bunch of shared code - should be refactored somehow
+- Radical/Kanji/Vocab item RecyclerView fast scrolling
+- Radical/Kanji/Vocab item RecyclerView hover over/long press highlighting
+- Radicals, Kanji, and Vocabulary fragments prob have a limit on the number of items that will be displayed
+    - Currently no pagination handling if too many items are returned from the api
+- Better logging of api request calls - especially failure cases
+- Existing bug - sometimes the LevelPicker will also select the user's level + 1
+- Reduce number of API requests made When navigating from the Dashboard to the ProgressDetailsActivity (by clicking progress card)
+- Better caching of user - we make too many api calls to get the user's current level (maybe attach user obj to sync intent)
+- Vacation Mode support
+
+Low Priority
+- Rename android studio project to Kakumei
+- Google autoformat style/spacing
+- Rate limit requests
+- Caching of subjects - using updatedAfter queries to only get new data
+- Recent Unlocks and Critical Items Views
+- Java date objects instead of Strings in api models?
+- BaseItem methods - getKana() getOnyomi() getKunyomi() can prob be refactored
+- Subscription support - should only show users subject data up to their subbed level
+
+Other Ideas
+- Timber for logging
+
+Plug in Ideas
+- pitch accent plugin
+- stroke order plugin
