@@ -27,7 +27,6 @@
         <activity
             android:exported="true"
             android:name=".app.activity.MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme_NavigationDrawerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -143,17 +142,6 @@
         <activity
             android:name=".app.activity.DonationsActivity"
             android:label="@string/title_donations" />
-
-        <receiver android:name=".content.notification.NotificationPublisher" />
-
-        <receiver
-            android:name=".content.notification.NotificationReceiver"
-            android:exported="true"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
 
 <!--        <service android:name=".service.MyFirebaseMessagingService">-->
 <!--            <intent-filter>-->
