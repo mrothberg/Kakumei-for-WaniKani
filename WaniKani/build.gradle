@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath 'com.google.gms:google-services:4.3.15'
         classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
     }
@@ -28,6 +28,10 @@ buildscript {
 
 android {
     compileSdkVersion 33
+
+    buildFeatures {
+        buildConfig = true
+    }
 
 //    playAccountConfigs {
 //        defaultAccountConfig {
