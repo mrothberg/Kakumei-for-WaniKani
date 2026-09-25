@@ -122,7 +122,7 @@ android {
         implementation files('libs/commons-io-2.4.jar')
         implementation files('libs/commons-lang3-3.3.1.jar')
 
-        implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
+        implementation(files("libs/stickyheadergrid-release.aar"))
 
         implementation 'net.sourceforge.streamsupport:android-retrofuture:1.7.2'
 
