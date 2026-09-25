@@ -103,7 +103,7 @@ public class RecentUnlocksActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 

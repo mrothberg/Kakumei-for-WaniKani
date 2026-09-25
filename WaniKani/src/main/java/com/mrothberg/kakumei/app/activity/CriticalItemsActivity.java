@@ -101,7 +101,7 @@ public class CriticalItemsActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 

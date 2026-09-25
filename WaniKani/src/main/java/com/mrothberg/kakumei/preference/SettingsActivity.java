@@ -593,7 +593,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 }

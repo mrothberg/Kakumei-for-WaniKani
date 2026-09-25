@@ -171,7 +171,7 @@ public class DonationsActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 

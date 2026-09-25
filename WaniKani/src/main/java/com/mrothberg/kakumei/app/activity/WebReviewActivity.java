@@ -13,8 +13,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import com.mrothberg.kakumei.utils.WindowInsetsSupport;
+import com.mrothberg.kakumei.utils.SessionNavigation;
 import android.os.Handler;
 import androidx.appcompat.app.ActionBar;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
@@ -806,6 +808,7 @@ public class WebReviewActivity extends AppCompatActivity {
     private FileDownloader fda;
 
     ActionBar mActionBar;
+    private AlertDialog exitDialog;
 
     /**
      * Called when the action is initially displayed. It initializes the objects
@@ -909,6 +912,12 @@ public class WebReviewActivity extends AppCompatActivity {
         // Added by @Aralox to keep the screen awake during reviews. Technique from http://stackoverflow.com/questions/8442079/keep-the-screen-awake-throughout-my-activity
         // TODO: Make this an option in the app's settings.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleSessionBack();
+            }
+        });
     }
 
     @Override
@@ -964,6 +973,10 @@ public class WebReviewActivity extends AppCompatActivity {
     @Override
     public void onDestroy ()
     {
+        if (exitDialog != null) {
+            exitDialog.dismiss();
+            exitDialog = null;
+        }
         super.onDestroy ();
 
         if (reaper != null)
@@ -1010,33 +1023,24 @@ public class WebReviewActivity extends AppCompatActivity {
      */
     protected boolean backIsSafe ()
     {
-        String lpage, rpage, url;
-
-        url = wv.getUrl ();
-        lpage = "www.wanikani.com/lesson";
-        rpage = "www.wanikani.com/review";
-
-        return kbstatus.backIsSafe () &&
-				/* Need this because the reviews summary page is dangerous */
-                !(url.contains (rpage) || rpage.contains (url)) &&
-                !(url.contains (lpage) || lpage.contains (url));
+        return kbstatus.backIsSafe() && !SessionNavigation.isSessionUrl(wv.getUrl());
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 
-    @Override
-    public void onBackPressed ()
+    private void handleSessionBack()
     {
+        if (exitDialog != null && exitDialog.isShowing()) return;
         String url;
 
         url = wv.getUrl ();
 
         if (url == null)
-            super.onBackPressed ();
+            finish();
         else if (url.contains ("http://www.wanikani.com/quickview"))
             wv.loadUrl (Browser.LESSON_URL);
         else if (wv.canGoBack () && backIsSafe ())
@@ -1048,7 +1052,7 @@ public class WebReviewActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            WebReviewActivity.super.onBackPressed();
+                            finish();
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1056,8 +1060,9 @@ public class WebReviewActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                     });
-            AlertDialog alert = builder.create();
-            alert.show();
+            exitDialog = builder.create();
+            exitDialog.setOnDismissListener(dialog -> exitDialog = null);
+            exitDialog.show();
         }
     }
 

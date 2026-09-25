@@ -106,7 +106,7 @@ public class ProgressDetailsActivity extends AppCompatActivity implements Progre
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 
