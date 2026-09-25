@@ -3,6 +3,7 @@ package com.mrothberg.kakumei.app.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class FirstTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time);
+        WindowInsetsSupport.apply(this);
 
         context = this;
 

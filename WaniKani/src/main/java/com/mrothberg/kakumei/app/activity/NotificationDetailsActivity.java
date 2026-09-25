@@ -3,6 +3,7 @@ package com.mrothberg.kakumei.app.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
@@ -25,6 +26,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_details);
+        WindowInsetsSupport.apply(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getSerializable(ARG_NOTIFICATION) != null) {

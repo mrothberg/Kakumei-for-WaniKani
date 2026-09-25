@@ -3,6 +3,7 @@ package com.mrothberg.kakumei.app.activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class Browser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+        WindowInsetsSupport.apply(this);
 
 
         mActionBar = getSupportActionBar();

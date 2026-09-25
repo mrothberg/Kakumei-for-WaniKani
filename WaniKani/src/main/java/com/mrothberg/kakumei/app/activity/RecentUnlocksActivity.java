@@ -3,6 +3,7 @@ package com.mrothberg.kakumei.app.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -45,6 +46,7 @@ public class RecentUnlocksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recent_unlocks);
+        WindowInsetsSupport.apply(this);
 
         context = this;
 

@@ -2,6 +2,7 @@ package com.mrothberg.kakumei.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -64,6 +65,7 @@ public class ProgressDetailsActivity extends AppCompatActivity implements Progre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_details);
+        WindowInsetsSupport.apply(this);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

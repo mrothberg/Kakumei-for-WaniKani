@@ -2,6 +2,7 @@ package com.mrothberg.kakumei.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -60,6 +61,7 @@ public class DonationsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donatons);
+        WindowInsetsSupport.apply(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         flipper = (ViewFlipper) findViewById(R.id.flipper);

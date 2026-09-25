@@ -69,6 +69,8 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
     @Override
     protected boolean fitSystemWindows(Rect insets) {
         mInsets = new Rect(insets);
+        // Keep drawer actions above navigation controls; the profile fills the top inset.
+        setPadding(insets.left, 0, insets.right, insets.bottom);
         setWillNotDraw(mInsetForeground == null);
         ViewCompat.postInvalidateOnAnimation(this);
         if (mOnInsetsCallback != null) {

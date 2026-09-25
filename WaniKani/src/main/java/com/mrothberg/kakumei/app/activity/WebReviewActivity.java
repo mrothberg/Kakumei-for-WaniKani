@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import com.mrothberg.kakumei.utils.WindowInsetsSupport;
 import android.os.Handler;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -822,6 +823,7 @@ public class WebReviewActivity extends AppCompatActivity {
         setVolumeControlStream (AudioManager.STREAM_MUSIC);
 
         setContentView (R.layout.activity_web_view);
+        WindowInsetsSupport.apply(this, getResources().getColor(R.color.apptheme_main_dark));
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
