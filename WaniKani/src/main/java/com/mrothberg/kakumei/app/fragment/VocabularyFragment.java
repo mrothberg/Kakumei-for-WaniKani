@@ -219,13 +219,11 @@ public class VocabularyFragment extends Fragment implements LevelPickerDialogFra
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_level:
-                showLevelDialog();
-                break;
-            case R.id.action_legend:
-                showLegend();
-                break;
+        int id = item.getItemId();
+        if (id == R.id.action_level) {
+            showLevelDialog();
+        } else if (id == R.id.action_legend) {
+            showLegend();
         }
 
         return super.onOptionsItemSelected(item);

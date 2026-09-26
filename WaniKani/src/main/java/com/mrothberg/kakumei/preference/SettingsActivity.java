@@ -469,92 +469,65 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.settings_general_use_custom_fonts:
-                mCustomFontsCheckBox.toggle();
-                break;
-            case R.id.settings_general_use_specific_dates:
-                mGeneralUseSpecificDatesCheckBox.toggle();
-                break;
-            case R.id.settings_dashboard_recent_unlocks_number:
-                new RecentUnlocksNumberPreference().show(getFragmentManager(),
-                        "recent-unlocks-numbers-preference");
-                break;
-            case R.id.settings_dashboard_critical_items_percentage:
-                new CriticalItemsPercentagePreference().show(getFragmentManager(),
-                        "critical-items-percentage-preference");
-                break;
-            case R.id.settings_dashboard_critical_items_number:
-                new CriticalItemsNumberPreference().show(getFragmentManager(),
-                        "critical-items-number-preference");
-                break;
-            case R.id.settings_userscripts_review_improvements:
-                mReviewImprovementsCheckBox.toggle();
-                break;
-            case R.id.settings_rev_les_fullscreen:
-                mReviewsLessonsFullscreenCheckBox.toggle();
-                break;
-            case R.id.settings_notifications_enable_notifications:
-                mNotificationsEnableCheckBox.toggle();
-                break;
-            case R.id.settings_notifications_enable_reminder_notifications:
-                mNotificationsReminderEnableCheckBox.toggle();
-                break;
-            case R.id.settings_notifications_reminder_notification_interval:
-                showReminderNotificationIntervalDialog();
-                break;
-            case R.id.settings_userscripts_ignore_button:
-                mIgnoreButtonCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_single_button:
-                mSingleButtonCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_portrait_mode:
-                mPortraitModeCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_wanikani_improve:
-                mWaniKaniImproveCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_review_order:
-                mReviewOrderCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_lesson_order:
-                mLessonOrderCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_external_frame_placer:
-                mExternalFramePlacerCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_external_frame_placer_dictionary:
-                // TODO - Dictionary chooser
-                break;
-            case R.id.settings_userscripts_part_of_speech:
-                mPartOfSpeechCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_auto_popup:
-                mAutoPopupCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_mistake_delay:
-                mMistakeDelayCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_romaji:
-                mRomajiCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_no_suggestions:
-                mNoSuggestionCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_mute_button:
-                mMuteButtonCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_srs_indication:
-                mSRSIndicationCheckBox.toggle();
-                break;
-            case R.id.settings_userscripts_hw_accel:
-                mHWAccelCheckBox.toggle();
-                break;
-            case R.id.settings_developer_open_source_licenses:
-                new OpenSourceLicensesDialogFragment().show(getSupportFragmentManager(),
-                        "open-source-licenses-preference-dialog");
-                break;
+        int id = view.getId();
+        if (id == R.id.settings_general_use_custom_fonts) {
+            mCustomFontsCheckBox.toggle();
+        } else if (id == R.id.settings_general_use_specific_dates) {
+            mGeneralUseSpecificDatesCheckBox.toggle();
+        } else if (id == R.id.settings_dashboard_recent_unlocks_number) {
+            new RecentUnlocksNumberPreference().show(getFragmentManager(),
+                    "recent-unlocks-numbers-preference");
+        } else if (id == R.id.settings_dashboard_critical_items_percentage) {
+            new CriticalItemsPercentagePreference().show(getFragmentManager(),
+                    "critical-items-percentage-preference");
+        } else if (id == R.id.settings_dashboard_critical_items_number) {
+            new CriticalItemsNumberPreference().show(getFragmentManager(),
+                    "critical-items-number-preference");
+        } else if (id == R.id.settings_userscripts_review_improvements) {
+            mReviewImprovementsCheckBox.toggle();
+        } else if (id == R.id.settings_rev_les_fullscreen) {
+            mReviewsLessonsFullscreenCheckBox.toggle();
+        } else if (id == R.id.settings_notifications_enable_notifications) {
+            mNotificationsEnableCheckBox.toggle();
+        } else if (id == R.id.settings_notifications_enable_reminder_notifications) {
+            mNotificationsReminderEnableCheckBox.toggle();
+        } else if (id == R.id.settings_notifications_reminder_notification_interval) {
+            showReminderNotificationIntervalDialog();
+        } else if (id == R.id.settings_userscripts_ignore_button) {
+            mIgnoreButtonCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_single_button) {
+            mSingleButtonCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_portrait_mode) {
+            mPortraitModeCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_wanikani_improve) {
+            mWaniKaniImproveCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_review_order) {
+            mReviewOrderCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_lesson_order) {
+            mLessonOrderCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_external_frame_placer) {
+            mExternalFramePlacerCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_external_frame_placer_dictionary) {
+            // TODO - Dictionary chooser
+        } else if (id == R.id.settings_userscripts_part_of_speech) {
+            mPartOfSpeechCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_auto_popup) {
+            mAutoPopupCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_mistake_delay) {
+            mMistakeDelayCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_romaji) {
+            mRomajiCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_no_suggestions) {
+            mNoSuggestionCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_mute_button) {
+            mMuteButtonCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_srs_indication) {
+            mSRSIndicationCheckBox.toggle();
+        } else if (id == R.id.settings_userscripts_hw_accel) {
+            mHWAccelCheckBox.toggle();
+        } else if (id == R.id.settings_developer_open_source_licenses) {
+            new OpenSourceLicensesDialogFragment().show(getSupportFragmentManager(),
+                    "open-source-licenses-preference-dialog");
         }
     }
 

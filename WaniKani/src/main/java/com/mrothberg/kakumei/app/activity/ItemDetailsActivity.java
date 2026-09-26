@@ -284,25 +284,24 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_details_view_on_web:
-                Intent intent = new Intent(this, Browser.class);
-                intent.putExtra(Browser.ARG_ACTION, Browser.ACTION_ITEM_DETAILS);
+        if (id == R.id.action_details_view_on_web) {
+            Intent intent = new Intent(this, Browser.class);
+            intent.putExtra(Browser.ARG_ACTION, Browser.ACTION_ITEM_DETAILS);
 
-                if (mItem.getType().equals(BaseItem.ItemType.RADICAL)) {
-                    intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.RADICAL);
-                    intent.putExtra(Browser.ARG_ITEM, mMeaning.getText().toString());
-                }
-                if (mItem.getType().equals(BaseItem.ItemType.KANJI)) {
-                    intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.KANJI);
-                    intent.putExtra(Browser.ARG_ITEM, mTitle.getText().toString());
-                }
-                if (mItem.getType().equals(BaseItem.ItemType.VOCABULARY)) {
-                    intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.VOCABULARY);
-                    intent.putExtra(Browser.ARG_ITEM, mTitle.getText().toString());
-                }
+            if (mItem.getType().equals(BaseItem.ItemType.RADICAL)) {
+                intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.RADICAL);
+                intent.putExtra(Browser.ARG_ITEM, mMeaning.getText().toString());
+            }
+            if (mItem.getType().equals(BaseItem.ItemType.KANJI)) {
+                intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.KANJI);
+                intent.putExtra(Browser.ARG_ITEM, mTitle.getText().toString());
+            }
+            if (mItem.getType().equals(BaseItem.ItemType.VOCABULARY)) {
+                intent.putExtra(Browser.ARG_ITEM_TYPE, BaseItem.ItemType.VOCABULARY);
+                intent.putExtra(Browser.ARG_ITEM, mTitle.getText().toString());
+            }
 
-                startActivity(intent);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
