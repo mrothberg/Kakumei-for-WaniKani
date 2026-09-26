@@ -330,9 +330,9 @@ public class DashboardFragment extends Fragment
 //            mReviewsHolder.setVisibility(View.GONE);
 //            mVacationModeCardHolder.setVisibility(View.VISIBLE);
 //        } else {
-            mAvailableHolder.setVisibility(View.VISIBLE);
-            mReviewsHolder.setVisibility(View.VISIBLE);
-            mVacationModeCardHolder.setVisibility(View.GONE);
+        mAvailableHolder.setVisibility(View.VISIBLE);
+        mReviewsHolder.setVisibility(View.VISIBLE);
+        mVacationModeCardHolder.setVisibility(View.GONE);
 //        }
     }
 

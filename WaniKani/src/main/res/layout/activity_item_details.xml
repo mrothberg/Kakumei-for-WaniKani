@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
-                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
                             tools:text="Item Meaning" />
@@ -102,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
-                            android:maxLines="1"
+                            android:singleLine="true"
                             android:text="0"
                             android:textColor="@android:color/white"
                             android:textSize="18sp" />
@@ -356,7 +356,7 @@
                                 android:layout_height="36dp"
                                 android:layout_marginBottom="8dp"
                                 android:src="@drawable/ic_lock_black_36dp"
-                                android:tint="@color/text_gray" />
+                                app:tint="@color/text_gray" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -387,7 +387,7 @@
                                 android:layout_height="74dp"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/burned"
-                                android:tint="?colorPrimary" />
+                                app:tint="?colorPrimary" />
 
                             <TextView
                                 android:layout_width="wrap_content"

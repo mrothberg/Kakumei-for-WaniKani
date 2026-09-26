@@ -36,7 +36,7 @@
                 android:layout_marginLeft="16dp"
                 android:ellipsize="marquee"
                 android:maxEms="5"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="大した"
                 android:textColor="@color/text_gray"
                 android:textSize="26sp" />
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:maxEms="7"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="たいした"
                     android:textColor="@color/text_gray" />
 
@@ -68,7 +68,7 @@
                     android:ellipsize="marquee"
                     android:fontFamily="sans-serif-light"
                     android:maxEms="7"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="Considerable"
                     android:textColor="@color/text_gray" />
 

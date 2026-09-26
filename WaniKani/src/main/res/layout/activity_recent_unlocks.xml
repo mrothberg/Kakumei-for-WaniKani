@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
-            <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
+            <GridView
                 android:id="@+id/activity_recent_unlocks_grid"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

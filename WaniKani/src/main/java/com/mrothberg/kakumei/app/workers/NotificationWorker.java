@@ -97,7 +97,9 @@ public class NotificationWorker extends Worker {
     public static void startNotificationService(long interval) {
         LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
         LocalDateTime targetTime = currentTime.plusHours(1).truncatedTo(ChronoUnit.HOURS);
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, interval, TimeUnit.MILLISECONDS, 5, TimeUnit.MINUTES).setInitialDelay(Duration.between(currentTime, targetTime)).build();
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, interval, TimeUnit.MILLISECONDS, 5, TimeUnit.MINUTES)
+                .setInitialDelay(Duration.between(currentTime, targetTime).toMillis(), TimeUnit.MILLISECONDS)
+                .build();
         WorkManager.getInstance(App.getContext()).enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.UPDATE, workRequest);
     }
 

@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mrothberg.kakumei.R;
 
@@ -37,7 +37,7 @@ import com.mrothberg.kakumei.R;
  * <p/>
  * https://github.com/curioustechizen/android-ago
  */
-public class RelativeTimeTextView extends TextView {
+public class RelativeTimeTextView extends AppCompatTextView {
 
     private long mReferenceTime;
     private String mText;

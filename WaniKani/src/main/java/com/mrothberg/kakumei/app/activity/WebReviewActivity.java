@@ -991,13 +991,13 @@ public class WebReviewActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState (Bundle bundle)
     {
-        /* empty */
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
     protected void onRestoreInstanceState (Bundle bundle)
     {
-        /* empty */
+        super.onRestoreInstanceState(bundle);
     }
 
     @Override
