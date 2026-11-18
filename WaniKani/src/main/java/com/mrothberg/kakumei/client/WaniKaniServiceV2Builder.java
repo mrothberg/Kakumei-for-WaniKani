@@ -22,6 +22,10 @@ public class WaniKaniServiceV2Builder implements WaniKaniServiceV2BuilderInterfa
 
     @Override
     public WaniKaniServiceV2 buildService() {
+        return buildRetrofit().create(WaniKaniServiceV2.class);
+    }
+
+    Retrofit buildRetrofit() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -40,12 +44,11 @@ public class WaniKaniServiceV2Builder implements WaniKaniServiceV2BuilderInterfa
         };
         clientBuilder.addInterceptor(bearerAuthInterceptor);
 
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .client(clientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(API_HOST)
                 .build();
 
-        return retrofit.create(WaniKaniServiceV2.class);
     }
 }
